@@ -1,0 +1,27 @@
+{
+  "ok": true,
+  "data": {
+    "name": "Lemon Book and Coffe",
+    "tagline": "",
+    "address": "Calle Soria, 6, bajo comercial",
+    "city": "Murcia",
+    "postal_code": "30007",
+    "phone": "+34668514154",
+    "email": "info@lemonbookandcoffe.es",
+    "whatsapp": "+34668514154",
+    "maps_url": "https://maps.app.goo.gl/rL9vSwPQ9S1SA9YM9",
+    "instagram": "https://www.instagram.com/lemonbyces",
+    "facebook": "",
+    "hours": [
+      { "days": "Lunes a Viernes", "opens": "08:00", "closes": "23:00" }
+    ],
+    "whatsapp_url": "https://wa.me/34668514154",
+    "hero_image": "https://gestion.lemonbookandcoffe.es/uploads/site/ejemplo-local.jpg",
+    "gallery": [
+      "https://gestion.lemonbookandcoffe.es/uploads/site/ejemplo-1.jpg",
+      "https://gestion.lemonbookandcoffe.es/uploads/site/ejemplo-2.jpg",
+      "https://gestion.lemonbookandcoffe.es/uploads/site/ejemplo-3.jpg"
+    ]
+  },
+  "generated_at": "2026-09-20T12:00:00+02:00"
+}

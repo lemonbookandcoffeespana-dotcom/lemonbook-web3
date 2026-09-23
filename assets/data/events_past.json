@@ -1,0 +1,43 @@
+{
+    "ok":  true,
+    "data":  {
+                 "events":  [
+                                {
+                                    "id":  9,
+                                    "slug":  "noche-de-poesia-9",
+                                    "name":  "Noche de poesía",
+                                    "short_description":  "Lectura abierta de poemas con micrófono libre.",
+                                    "description":  "Lectura abierta de poemas.",
+                                    "description_html":  "\u003cp\u003eLectura abierta de poemas con \u003cem\u003emicrófono libre\u003c/em\u003e.\u003c/p\u003e",
+                                    "starts_at":  "2026-09-05 20:00:00",
+                                    "ends_at":  "2026-09-05 22:00:00",
+                                    "topic":  "Eventos literarios",
+                                    "venue":  "Lemon Book \u0026 Coffee",
+                                    "venue_url":  "",
+                                    "price":  5.0,
+                                    "remaining":  0,
+                                    "status":  "past",
+                                    "sale_open":  false,
+                                    "sold_out":  false,
+                                    "waitlist_open":  false,
+                                    "menu_options":  [
+
+                                                     ],
+                                    "image":  "https://gestion.lemonbookandcoffe.es/uploads/events/event-9-main-t.jpg",
+                                    "image_large":  "https://gestion.lemonbookandcoffe.es/uploads/events/event-9-main.jpg",
+                                    "image_alt":  "Cartel de la noche de poesía",
+                                    "images":  {
+
+                                               },
+                                    "buy_url":  "",
+                                    "sale_opens_at":  null,
+                                    "sale_closes_at":  null,
+                                    "price_label":  "",
+                                    "price_changes_at":  null,
+                                    "pay_at_venue":  true,
+                                    "table_booking":  false
+                                }
+                            ]
+             },
+    "generated_at":  "2026-09-20T12:00:00+02:00"
+}

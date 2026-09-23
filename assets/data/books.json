@@ -1,0 +1,38 @@
+{
+  "ok": true,
+  "data": {
+    "books": [
+      {
+        "name": "Libro de ejemplo de autor murciano",
+        "author": "Autora de Ejemplo",
+        "murciano": true,
+        "description": "Novela ambientada en la huerta murciana.",
+        "price": 17.9,
+        "image": "https://gestion.lemonbookandcoffe.es/uploads/products/ejemplo-libro-t.jpg",
+        "image_large": "https://gestion.lemonbookandcoffe.es/uploads/products/ejemplo-libro.jpg",
+        "buy_url": "https://lemonbookandcoffe.es/?post_type=product&p=2001"
+      },
+      {
+        "name": "Libro de ejemplo sin autor asignado",
+        "author": "",
+        "murciano": false,
+        "description": "",
+        "price": 12.0,
+        "image": "",
+        "image_large": "",
+        "buy_url": "https://lemonbookandcoffe.es/?post_type=product&p=2002"
+      },
+      {
+        "name": "Libro de ejemplo sin enlace de compra",
+        "author": "Otro Autor",
+        "murciano": false,
+        "description": "Caso en que buy_url llega vacío: mostrar la ficha sin botón de compra.",
+        "price": 9.5,
+        "image": "",
+        "image_large": "",
+        "buy_url": ""
+      }
+    ]
+  },
+  "generated_at": "2026-09-20T12:00:00+02:00"
+}

@@ -1,0 +1,71 @@
+{
+  "ok": true,
+  "data": {
+    "categories": [
+      {
+        "name": "Desayunos",
+        "items": [
+          {
+            "name": "Tostada con tomate y aceite",
+            "description": "Pan de masa madre, tomate rallado y aceite de oliva virgen extra.",
+            "price": 3.5,
+            "allergens": [
+              { "code": "gluten", "label": "Gluten" }
+            ],
+            "image": "https://gestion.lemonbookandcoffe.es/uploads/products/ejemplo-tostada-t.jpg",
+            "image_large": "https://gestion.lemonbookandcoffe.es/uploads/products/ejemplo-tostada.jpg"
+          },
+          {
+            "name": "Café con leche",
+            "description": "",
+            "price": 1.8,
+            "allergens": [
+              { "code": "lacteos", "label": "Lácteos" }
+            ],
+            "image": "",
+            "image_large": ""
+          }
+        ]
+      },
+      {
+        "name": "Postres",
+        "items": [
+          {
+            "name": "Tarta de limón",
+            "description": "Base de galleta, crema de limón y merengue.",
+            "price": 4.9,
+            "allergens": [
+              { "code": "gluten", "label": "Gluten" },
+              { "code": "huevos", "label": "Huevos" },
+              { "code": "lacteos", "label": "Lácteos" }
+            ],
+            "image": "https://gestion.lemonbookandcoffe.es/uploads/products/ejemplo-tarta-t.jpg",
+            "image_large": "https://gestion.lemonbookandcoffe.es/uploads/products/ejemplo-tarta.jpg"
+          },
+          {
+            "name": "Infusión",
+            "description": "",
+            "price": 2.0,
+            "allergens": [],
+            "image": "",
+            "image_large": ""
+          }
+        ]
+      },
+      {
+        "name": "Otros",
+        "items": [
+          {
+            "name": "Plato sin categoría asignada",
+            "description": "Los platos sin categoría en gestion caen en la categoría \"Otros\".",
+            "price": 6.0,
+            "allergens": [],
+            "image": "",
+            "image_large": ""
+          }
+        ]
+      }
+    ]
+  },
+  "generated_at": "2026-09-20T12:00:00+02:00"
+}
