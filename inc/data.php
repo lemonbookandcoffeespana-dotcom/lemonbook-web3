@@ -50,7 +50,9 @@ function lemon_data_resource( string $resource, array $query = array() ): array 
 				$request_args['when'] = 'past';
 			}
 			$url = add_query_arg( $request_args, LEMONBOOK_API_BASE );
-			$response = wp_remote_get( $url, array( 'timeout' => 5, 'redirection' => 2 ) );
+			// gestion vuelve a responder de forma inestable en events/books (0.2s-6s); 5s de margen
+			// hacía que las peticiones más lentas fallaran sin nada que cachear. Ver inc/data.php arriba.
+			$response = wp_remote_get( $url, array( 'timeout' => 9, 'redirection' => 2 ) );
 			if ( ! is_wp_error( $response ) && 200 === wp_remote_retrieve_response_code( $response ) ) {
 				$decoded = json_decode( wp_remote_retrieve_body( $response ), true );
 				if ( is_array( $decoded ) && ! empty( $decoded['ok'] ) && isset( $decoded['data'] ) && is_array( $decoded['data'] ) ) {

@@ -28,14 +28,22 @@ $site = lemon_site();
 		</button>
 		<nav id="primary-navigation" class="primary-navigation" aria-label="<?php esc_attr_e( 'Navegación principal', 'lemonbook' ); ?>" data-navigation>
 			<?php
-			wp_nav_menu(
+			// wp_nav_menu() solo llama a fallback_cb cuando la ubicación no tiene ningún menú asignado;
+			// si hay un menú asignado pero sin elementos, no renderiza nada y tampoco cae al fallback.
+			// Se comprueba el resultado y se fuerza el menú por defecto en ese caso.
+			$primary_menu = wp_nav_menu(
 				array(
 					'theme_location' => 'primary',
 					'container'      => false,
 					'menu_class'     => 'menu',
-					'fallback_cb'    => 'lemon_fallback_menu',
+					'echo'           => false,
 				)
 			);
+			if ( $primary_menu ) {
+				echo $primary_menu;
+			} else {
+				lemon_fallback_menu();
+			}
 			?>
 		</nav>
 		<noscript><style>.menu-toggle{display:none}.primary-navigation{position:static;display:block}</style></noscript>
