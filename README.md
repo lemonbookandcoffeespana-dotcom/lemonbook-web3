@@ -30,7 +30,8 @@ lemonbook/
 │   ├── fonts/                 Fuentes locales pendientes
 │   ├── img/                   Logos raster redimensionados
 │   ├── js/main.js             Menú móvil y envío de formularios
-│   └── js/image-fallback.js   Respaldo accesible para imágenes remotas
+│   ├── js/image-fallback.js   Respaldo accesible para imágenes remotas
+│   └── js/events-carousel.js  Rueda y arrastre para el carrusel de eventos de portada
 ├── inc/
 │   ├── data.php               Única capa de acceso a datos
 │   └── template-tags.php      Formatos y utilidades de presentación
@@ -117,6 +118,7 @@ Cuando `site.hero_image` existe, es la imagen LCP del hero, con recorte 4:3, bor
 - `lemon_event_url( $event )` centraliza la URL actual de la ficha. Las plantillas nunca construyen `?event_id=` directamente.
 - `lemon_current_event()` busca el ID solicitado primero entre próximos eventos y, solo si no aparece, en el archivo pasado.
 - `page-eventos.php` separa **Próximos eventos** y **Eventos anteriores**. El archivo pasado es más discreto y nunca ofrece una acción de reserva.
+- `front-page.php` abre con un carrusel horizontal (`events-carousel-section`) con **todos** los eventos próximos de `lemon_events()`, no solo el siguiente. Cada tarjeta (`template-parts/event-carousel-card.php`) es un único `<a>` que cubre toda la tarjeta y enlaza a `lemon_event_url( $event )`; no hay enlaces anidados. Si no hay eventos próximos, la sección no se renderiza. El bloque «Historias que se saborean» pasa a ser el segundo módulo de la portada. El desplazamiento usa `scroll-snap` nativo (dedo/trackpad); `assets/js/events-carousel.js` añade además desplazamiento con la rueda del ratón y arrastre con puntero en escritorio, distinguiendo arrastre de click para no interferir con la navegación de las tarjetas.
 - `page-evento.php` resuelve exclusivamente mediante `lemon_current_event()` y presenta los estados `open`, `pending`, `sold_out`, `closed`, `cancelled` y `past` con texto e icono, sin depender solo del color.
 - `lemon_event_price_text( $event )` unifica el importe de ficha, tarjetas y portada: antepone `price_label` cuando existe y conserva «Gratis» para precio cero.
 - `template-parts/waitlist-form.php` contiene la lista de espera reutilizable para eventos agotados con `waitlist_open`. Envía a `/wp-json/lemonbook/v1/forms/waitlist` mediante el manejador existente.

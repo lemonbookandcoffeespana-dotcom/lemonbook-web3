@@ -46,6 +46,9 @@ function lemonbook_assets(): void {
 	wp_enqueue_style( 'lemonbook-main', get_template_directory_uri() . '/assets/css/main.css', array(), $version );
 	wp_enqueue_script( 'lemonbook-main', get_template_directory_uri() . '/assets/js/main.js', array(), $version, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 	wp_enqueue_script( 'lemonbook-image-fallback', get_template_directory_uri() . '/assets/js/image-fallback.js', array(), $version, array( 'in_footer' => true, 'strategy' => 'defer' ) );
+	if ( is_front_page() ) {
+		wp_enqueue_script( 'lemonbook-events-carousel', get_template_directory_uri() . '/assets/js/events-carousel.js', array(), $version, array( 'in_footer' => true, 'strategy' => 'defer' ) );
+	}
 }
 add_action( 'wp_enqueue_scripts', 'lemonbook_assets' );
 

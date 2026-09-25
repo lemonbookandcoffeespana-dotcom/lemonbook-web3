@@ -13,6 +13,18 @@ $books  = lemon_books();
 get_header();
 ?>
 <main id="main-content">
+	<?php if ( $events['events'] ) : ?>
+	<section class="events-carousel-section" aria-labelledby="events-carousel-title">
+		<div class="shell events-carousel-header">
+			<div><p class="kicker"><?php esc_html_e( 'Agenda', 'lemonbook' ); ?></p><h2 id="events-carousel-title"><?php esc_html_e( 'Eventos y actividades', 'lemonbook' ); ?></h2></div>
+			<a class="text-link" href="<?php echo esc_url( lemon_page_url( 'eventos' ) ); ?>"><?php esc_html_e( 'Ver todos los eventos', 'lemonbook' ); ?></a>
+		</div>
+		<div class="events-carousel" data-events-carousel tabindex="-1">
+			<?php foreach ( $events['events'] as $event ) { get_template_part( 'template-parts/event-carousel-card', null, array( 'event' => $event ) ); } ?>
+		</div>
+	</section>
+	<?php endif; ?>
+
 	<section class="hero" aria-labelledby="hero-title">
 		<div class="shell hero-grid">
 			<div>
@@ -56,29 +68,6 @@ get_header();
 					<?php ++$shown; endforeach; endforeach; ?>
 				</div>
 			<?php else : ?><p class="empty-state"><?php esc_html_e( 'La carta estará disponible muy pronto.', 'lemonbook' ); ?></p><?php endif; ?>
-		</div>
-	</section>
-
-	<section class="section" aria-labelledby="events-title">
-		<div class="shell">
-			<header class="section-header section-header--split"><div><p class="kicker"><?php esc_html_e( 'Agenda', 'lemonbook' ); ?></p><h2 id="events-title"><?php esc_html_e( 'Próximos encuentros', 'lemonbook' ); ?></h2></div><a class="text-link" href="<?php echo esc_url( lemon_page_url( 'eventos' ) ); ?>"><?php esc_html_e( 'Ver todos los eventos', 'lemonbook' ); ?></a></header>
-			<?php if ( $events['events'] ) : ?>
-				<div>
-					<?php foreach ( array_slice( $events['events'], 0, 3 ) as $event ) :
-						$event_name   = (string) ( $event['name'] ?? __( 'Evento sin título', 'lemonbook' ) );
-						$event_status = (string) ( $event['status'] ?? 'closed' );
-						$event_wide   = isset( $event['images']['wide'] ) && is_array( $event['images']['wide'] ) ? $event['images']['wide'] : array();
-						$event_thumb  = isset( $event_wide['thumb'] ) ? (string) $event_wide['thumb'] : '';
-						$event_wide_url = isset( $event_wide['url'] ) ? (string) $event_wide['url'] : '';
-						$event_image  = (string) ( $event['image'] ?? '' );
-						$event_src    = $event_thumb ?: $event_image;
-						$event_srcset = $event_thumb ? implode( ', ', array_filter( array( esc_url_raw( $event_thumb ) . ' 400w', $event_wide_url ? esc_url_raw( $event_wide_url ) . ' 1200w' : '' ) ) ) : implode( ', ', array_filter( array( $event_image ? esc_url_raw( $event_image ) . ' 400w' : '', ! empty( $event['image_large'] ) ? esc_url_raw( $event['image_large'] ) . ' 1200w' : '' ) ) );
-						$event_alt = ! empty( $event['image_alt'] ) ? (string) $event['image_alt'] : $event_name;
-						?>
-						<article class="event-card event-card--<?php echo esc_attr( $event_status ); ?><?php echo esc_attr( $event_src ? ' has-image' : '' ); ?>"><?php if ( $event_src ) : ?><div class="event-card__media" data-image-fallback><img data-content-image src="<?php echo esc_url( $event_src ); ?>"<?php if ( $event_srcset ) : ?> srcset="<?php echo esc_attr( $event_srcset ); ?>" sizes="(max-width: 767px) calc(100vw - 2rem), 192px"<?php endif; ?> width="600" height="400" loading="lazy" decoding="async" alt="<?php echo esc_attr( $event_alt ); ?>"><div class="image-placeholder image-fallback" role="img" aria-label="<?php esc_attr_e( 'Imagen no disponible', 'lemonbook' ); ?>"></div></div><?php endif; ?><p class="event-date"><?php echo esc_html( lemon_date( $event['starts_at'] ?? '' ) ); ?></p><div><?php if ( ! empty( $event['topic'] ) ) : ?><p class="kicker"><?php echo esc_html( $event['topic'] ); ?></p><?php endif; ?><h3><a href="<?php echo esc_url( lemon_event_url( $event ) ); ?>"><?php echo esc_html( $event_name ); ?></a></h3><?php if ( ! empty( $event['short_description'] ) ) : ?><p><?php echo esc_html( $event['short_description'] ); ?></p><?php endif; ?></div><div class="event-card__action"><span class="event-status event-status--<?php echo esc_attr( $event_status ); ?>"><?php echo esc_html( lemon_event_status_label( $event_status ) ); ?></span><?php if ( isset( $event['price'] ) ) : ?><span class="event-card__price"><?php echo esc_html( lemon_event_price_text( $event ) ); ?></span><?php endif; ?><a class="text-link" href="<?php echo esc_url( lemon_event_url( $event ) ); ?>"><?php esc_html_e( 'Ver evento', 'lemonbook' ); ?></a></div></article>
-					<?php endforeach; ?>
-				</div>
-			<?php else : ?><p class="empty-state"><?php esc_html_e( 'No hay próximos eventos publicados.', 'lemonbook' ); ?></p><?php endif; ?>
 		</div>
 	</section>
 
