@@ -4,11 +4,13 @@
   const track = document.querySelector('[data-events-carousel]');
   if (!track) return;
 
+  // Solo se actúa cuando el propio gesto ya trae componente horizontal (shift+rueda o
+  // trackpad); una rueda vertical normal debe seguir haciendo scroll de la página.
   track.addEventListener('wheel', (event) => {
-    if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+    if (event.deltaX === 0) return;
     if (track.scrollWidth <= track.clientWidth) return;
     event.preventDefault();
-    track.scrollLeft += event.deltaY;
+    track.scrollLeft += event.deltaX;
   }, { passive: false });
 
   // Arrastre con ratón (el touch/trackpad ya funciona de forma nativa vía overflow-x).

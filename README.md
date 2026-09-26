@@ -118,7 +118,7 @@ Cuando `site.hero_image` existe, es la imagen LCP del hero, con recorte 4:3, bor
 - `lemon_event_url( $event )` centraliza la URL actual de la ficha. Las plantillas nunca construyen `?event_id=` directamente.
 - `lemon_current_event()` busca el ID solicitado primero entre próximos eventos y, solo si no aparece, en el archivo pasado.
 - `page-eventos.php` separa **Próximos eventos** y **Eventos anteriores**. El archivo pasado es más discreto y nunca ofrece una acción de reserva.
-- `front-page.php` abre con un carrusel horizontal (`events-carousel-section`) con **todos** los eventos próximos de `lemon_events()`, no solo el siguiente. Cada tarjeta (`template-parts/event-carousel-card.php`) es un único `<a>` que cubre toda la tarjeta y enlaza a `lemon_event_url( $event )`; no hay enlaces anidados. Si no hay eventos próximos, la sección no se renderiza. El bloque «Historias que se saborean» pasa a ser el segundo módulo de la portada. El desplazamiento usa `scroll-snap` nativo (dedo/trackpad); `assets/js/events-carousel.js` añade además desplazamiento con la rueda del ratón y arrastre con puntero en escritorio, distinguiendo arrastre de click para no interferir con la navegación de las tarjetas.
+- `front-page.php` abre con un carrusel horizontal (`events-carousel-section`) con **todos** los eventos próximos de `lemon_events()`, no solo el siguiente. Cada tarjeta (`template-parts/event-carousel-card.php`) es un único `<a>` que cubre toda la tarjeta y enlaza a `lemon_event_url( $event )`; no hay enlaces anidados. Si no hay eventos próximos, la sección no se renderiza. El bloque «Historias que se saborean» pasa a ser el segundo módulo de la portada. El desplazamiento usa `scroll-snap` nativo (dedo/trackpad); `assets/js/events-carousel.js` añade arrastre con puntero en escritorio (distinguiendo arrastre de click para no interferir con la navegación de las tarjetas) y reacciona a la rueda solo cuando el propio gesto ya trae componente horizontal (shift+rueda o trackpad), para no bloquear el scroll vertical normal de la página al pasar el ratón por encima.
 - `page-evento.php` resuelve exclusivamente mediante `lemon_current_event()` y presenta los estados `open`, `pending`, `sold_out`, `closed`, `cancelled` y `past` con texto e icono, sin depender solo del color.
 - `lemon_event_price_text( $event )` unifica el importe de ficha, tarjetas y portada: antepone `price_label` cuando existe y conserva «Gratis» para precio cero.
 - `template-parts/waitlist-form.php` contiene la lista de espera reutilizable para eventos agotados con `waitlist_open`. Envía a `/wp-json/lemonbook/v1/forms/waitlist` mediante el manejador existente.
@@ -126,6 +126,12 @@ Cuando `site.hero_image` existe, es la imagen LCP del hero, con recorte 4:3, bor
 - El menú del evento se agrupa por categoría; cada opción distingue **Incluido** o el importe que **se paga aparte**.
 
 `description_html` se vuelve a filtrar con `wp_kses`, enlaces limitados a HTTPS y esta lista blanca propia: `p`, `br`, `strong`, `b`, `em`, `i`, `ul`, `ol`, `li`, `h3`, `h4` y `a` únicamente con `href` y `rel`. Si no hay HTML se muestra `description` como texto plano escapado.
+
+## Promociones de la carta en portada
+
+`front-page.php` sustituye el antiguo resumen de los 4 primeros platos por un bloque **«Nuestras promociones»** que solo muestra los platos con `featured: true` en `lemon_menu()`, de cualquier categoría (sin límite fijo: los marca quien gestiona la carta). Si `lemon_menu()` devuelve categorías pero ninguna con `featured`, se muestra un aviso amable en vez de la sección vacía; si la API falla del todo, se mantiene el aviso genérico de siempre. La página completa `/carta/` no filtra por este campo: sigue mostrando el menú entero.
+
+`featured` es un campo nuevo del contrato de `menu()` (ver `assets/data/menu.json`, que ya lo documenta con ejemplos); si `gestion` no lo envía todavía, se trata como `false` y la sección de portada muestra el aviso de «muy pronto» hasta que se publique.
 
 ### Escenarios de comprobación visual
 

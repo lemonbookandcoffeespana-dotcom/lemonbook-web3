@@ -9,6 +9,7 @@
             "name": "Tostada con tomate y aceite",
             "description": "Pan de masa madre, tomate rallado y aceite de oliva virgen extra.",
             "price": 3.5,
+            "featured": true,
             "allergens": [
               { "code": "gluten", "label": "Gluten" }
             ],
@@ -19,6 +20,7 @@
             "name": "Café con leche",
             "description": "",
             "price": 1.8,
+            "featured": false,
             "allergens": [
               { "code": "lacteos", "label": "Lácteos" }
             ],
@@ -34,6 +36,7 @@
             "name": "Tarta de limón",
             "description": "Base de galleta, crema de limón y merengue.",
             "price": 4.9,
+            "featured": true,
             "allergens": [
               { "code": "gluten", "label": "Gluten" },
               { "code": "huevos", "label": "Huevos" },
@@ -46,6 +49,7 @@
             "name": "Infusión",
             "description": "",
             "price": 2.0,
+            "featured": false,
             "allergens": [],
             "image": "",
             "image_large": ""
@@ -59,6 +63,7 @@
             "name": "Plato sin categoría asignada",
             "description": "Los platos sin categoría en gestion caen en la categoría \"Otros\".",
             "price": 6.0,
+            "featured": true,
             "allergens": [],
             "image": "",
             "image_large": ""

@@ -10,6 +10,16 @@ $menu   = lemon_menu();
 $events = lemon_events();
 $books  = lemon_books();
 
+// Platos marcados como "en promoción" en gestion (cualquier categoría). La carta completa (/carta/) no filtra por esto.
+$featured_dishes = array();
+foreach ( $menu['categories'] as $category ) {
+	foreach ( (array) ( $category['items'] ?? array() ) as $item ) {
+		if ( ! empty( $item['featured'] ) ) {
+			$featured_dishes[] = $item;
+		}
+	}
+}
+
 get_header();
 ?>
 <main id="main-content">
@@ -48,25 +58,31 @@ get_header();
 	<section class="section section--dark" aria-labelledby="menu-title">
 		<div class="shell">
 			<header class="section-header section-header--split">
-				<div><p class="kicker"><?php esc_html_e( 'Para saborear', 'lemonbook' ); ?></p><h2 id="menu-title"><?php esc_html_e( 'Una carta para quedarse.', 'lemonbook' ); ?></h2></div>
-				<div><p><?php esc_html_e( 'Consulta nuestra selección y la información de alérgenos antes de visitarnos.', 'lemonbook' ); ?></p><a class="text-link" href="<?php echo esc_url( lemon_page_url( 'carta' ) ); ?>"><?php esc_html_e( 'Carta completa', 'lemonbook' ); ?></a></div>
+				<div><p class="kicker"><?php esc_html_e( 'Para saborear', 'lemonbook' ); ?></p><h2 id="menu-title"><?php esc_html_e( 'Nuestras promociones', 'lemonbook' ); ?></h2></div>
+				<div><p><?php esc_html_e( 'Platos que hoy destacamos especialmente. Consulta la carta completa y la información de alérgenos antes de visitarnos.', 'lemonbook' ); ?></p><a class="text-link" href="<?php echo esc_url( lemon_page_url( 'carta' ) ); ?>"><?php esc_html_e( 'Carta completa', 'lemonbook' ); ?></a></div>
 			</header>
-			<?php if ( $menu['categories'] ) : ?>
-				<div class="menu-preview">
-					<?php $shown = 0; foreach ( $menu['categories'] as $category ) : foreach ( (array) ( $category['items'] ?? array() ) as $item ) : if ( $shown >= 4 ) { break 2; }
+			<?php if ( $featured_dishes ) : ?>
+				<div class="grid featured-dish-grid">
+					<?php foreach ( $featured_dishes as $item ) :
 						$item_name  = (string) ( $item['name'] ?? __( 'Producto sin nombre', 'lemonbook' ) );
 						$item_image = (string) ( $item['image'] ?? '' );
 						$item_large = (string) ( $item['image_large'] ?? '' );
 						$item_src   = $item_image ?: $item_large;
 						$item_srcset = implode( ', ', array_filter( array( $item_image ? esc_url_raw( $item_image ) . ' 400w' : '', $item_large ? esc_url_raw( $item_large ) . ' 1200w' : '' ) ) );
 						?>
-						<div class="menu-preview__item">
-							<div class="menu-preview__media dish-media"<?php if ( $item_src ) : ?> data-image-fallback<?php endif; ?>><?php if ( $item_src ) : ?><img data-content-image src="<?php echo esc_url( $item_src ); ?>"<?php if ( $item_srcset ) : ?> srcset="<?php echo esc_attr( $item_srcset ); ?>" sizes="(max-width: 607px) calc(100vw - 4.5rem), 176px"<?php endif; ?> width="400" height="300" loading="lazy" decoding="async" alt="<?php echo esc_attr( $item_name ); ?>"><div class="image-placeholder image-fallback" role="img" aria-label="<?php esc_attr_e( 'Imagen no disponible', 'lemonbook' ); ?>"></div><?php else : ?><div class="image-placeholder" role="img" aria-label="<?php esc_attr_e( 'Imagen no disponible', 'lemonbook' ); ?>"></div><?php endif; ?></div>
-							<div class="menu-preview__content"><h3><?php echo esc_html( $item_name ); ?></h3><?php if ( ! empty( $item['description'] ) ) : ?><p><?php echo esc_html( $item['description'] ); ?></p><?php endif; ?></div>
-							<?php if ( isset( $item['price'] ) ) : ?><span class="price"><?php echo esc_html( lemon_price( $item['price'] ) ); ?></span><?php endif; ?>
-						</div>
-					<?php ++$shown; endforeach; endforeach; ?>
+						<article class="featured-dish-card">
+							<div class="featured-dish-card__media dish-media"<?php if ( $item_src ) : ?> data-image-fallback<?php endif; ?>><?php if ( $item_src ) : ?><img data-content-image src="<?php echo esc_url( $item_src ); ?>"<?php if ( $item_srcset ) : ?> srcset="<?php echo esc_attr( $item_srcset ); ?>" sizes="(max-width: 47.99rem) calc(50vw - 1.75rem), (max-width: 69.99rem) calc(33vw - 2rem), 20rem"<?php endif; ?> width="400" height="300" loading="lazy" decoding="async" alt="<?php echo esc_attr( $item_name ); ?>"><div class="image-placeholder image-fallback" role="img" aria-label="<?php esc_attr_e( 'Imagen no disponible', 'lemonbook' ); ?>"></div><?php else : ?><div class="image-placeholder" role="img" aria-label="<?php esc_attr_e( 'Imagen no disponible', 'lemonbook' ); ?>"></div><?php endif; ?></div>
+							<div class="featured-dish-card__body">
+								<span class="tag tag--yellow"><?php esc_html_e( 'Promoción', 'lemonbook' ); ?></span>
+								<h3><?php echo esc_html( $item_name ); ?></h3>
+								<?php if ( ! empty( $item['description'] ) ) : ?><p><?php echo esc_html( $item['description'] ); ?></p><?php endif; ?>
+								<?php if ( isset( $item['price'] ) ) : ?><span class="price"><?php echo esc_html( lemon_price( $item['price'] ) ); ?></span><?php endif; ?>
+							</div>
+						</article>
+					<?php endforeach; ?>
 				</div>
+			<?php elseif ( $menu['categories'] ) : ?>
+				<p class="empty-state"><?php esc_html_e( 'Muy pronto destacaremos aquí nuestras promociones. Descubre mientras tanto la carta completa.', 'lemonbook' ); ?></p>
 			<?php else : ?><p class="empty-state"><?php esc_html_e( 'La carta estará disponible muy pronto.', 'lemonbook' ); ?></p><?php endif; ?>
 		</div>
 	</section>
