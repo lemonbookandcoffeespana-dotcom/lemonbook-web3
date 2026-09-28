@@ -9,6 +9,10 @@ $site   = lemon_site();
 $menu   = lemon_menu();
 $events = lemon_events();
 $books  = lemon_books();
+$fair   = lemon_fair();
+
+// Las actividades de una feria tienen su propia sección: no van en el carrusel de eventos.
+$events['events'] = array_values( array_filter( $events['events'], static fn ( array $event ): bool => '' === $event['fair'] ) );
 
 // Platos marcados como "en promoción" en gestion (cualquier categoría). La carta completa (/carta/) no filtra por esto.
 $featured_dishes = array();
@@ -23,6 +27,7 @@ foreach ( $menu['categories'] as $category ) {
 get_header();
 ?>
 <main id="main-content">
+	<?php if ( $fair ) { get_template_part( 'template-parts/fair-banner', null, array( 'fair' => $fair ) ); } ?>
 	<?php if ( $events['events'] ) : ?>
 	<section class="events-carousel-section" aria-labelledby="events-carousel-title">
 		<div class="shell events-carousel-header">

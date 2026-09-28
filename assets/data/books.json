@@ -10,17 +10,19 @@
         "price": 17.9,
         "image": "https://gestion.lemonbookandcoffe.es/uploads/products/ejemplo-libro-t.jpg",
         "image_large": "https://gestion.lemonbookandcoffe.es/uploads/products/ejemplo-libro.jpg",
-        "buy_url": "https://lemonbookandcoffe.es/?post_type=product&p=2001"
+        "buy_url": "https://lemonbookandcoffe.es/?post_type=product&p=2001",
+        "fair": "ii-encuentro-libros-vecinos-la-flota"
       },
       {
         "name": "Libro de ejemplo sin autor asignado",
         "author": "",
         "murciano": false,
         "description": "",
-        "price": 12.0,
+        "price": 12,
         "image": "",
         "image_large": "",
-        "buy_url": "https://lemonbookandcoffe.es/?post_type=product&p=2002"
+        "buy_url": "https://lemonbookandcoffe.es/?post_type=product&p=2002",
+        "fair": null
       },
       {
         "name": "Libro de ejemplo sin enlace de compra",
@@ -30,7 +32,8 @@
         "price": 9.5,
         "image": "",
         "image_large": "",
-        "buy_url": ""
+        "buy_url": "",
+        "fair": "ii-encuentro-libros-vecinos-la-flota"
       }
     ]
   },

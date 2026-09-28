@@ -12,7 +12,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-const LEMONBOOK_REWRITE_VERSION = '1';
+// Subir al añadir o cambiar reglas de reescritura (eventos y feria) para que se vuelvan a registrar.
+const LEMONBOOK_REWRITE_VERSION = '2';
 
 /**
  * Register /eventos/{slug}/ and the query variable that carries the slug.

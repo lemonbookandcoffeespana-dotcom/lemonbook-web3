@@ -13,6 +13,7 @@ require_once get_template_directory() . '/inc/data.php';
 require_once get_template_directory() . '/inc/template-tags.php';
 require_once get_template_directory() . '/inc/forms.php';
 require_once get_template_directory() . '/inc/events-seo.php';
+require_once get_template_directory() . '/inc/fair.php';
 
 /**
  * Register theme features and navigation.

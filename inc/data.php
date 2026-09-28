@@ -27,16 +27,18 @@ if ( ! defined( 'LEMONBOOK_API_BASE' ) ) {
  * @return array<string, mixed>
  */
 function lemon_data_resource( string $resource, array $query = array() ): array {
-	$allowed = array( 'site', 'menu', 'events', 'books' );
+	$allowed = array( 'site', 'menu', 'events', 'books', 'fair' );
 	if ( ! in_array( $resource, $allowed, true ) ) {
 		return array();
 	}
 
 	$events_when = 'events' === $resource && isset( $query['when'] ) && 'past' === $query['when'] ? 'past' : 'upcoming';
+	// Feria concreta (books/fair): el slug viaja como sufijo de caché y como argumento de la API.
+	$fair_slug = in_array( $resource, array( 'books', 'fair' ), true ) && isset( $query['fair'] ) && is_string( $query['fair'] ) ? sanitize_title( $query['fair'] ) : '';
 	$envelope = array();
 
 	if ( 'api' === LEMONBOOK_DATA_SOURCE && '' !== LEMONBOOK_API_BASE ) {
-		$cache_key = 'lemonbook_' . $resource . ( 'events' === $resource ? '_' . $events_when : '' ) . '_v3';
+		$cache_key = 'lemonbook_' . $resource . ( 'events' === $resource ? '_' . $events_when : '' ) . ( '' !== $fair_slug ? '_' . substr( md5( $fair_slug ), 0, 10 ) : '' ) . '_v3';
 		$cached    = get_transient( $cache_key );
 
 		if ( is_array( $cached ) ) {
@@ -44,15 +46,16 @@ function lemon_data_resource( string $resource, array $query = array() ): array 
 		} else {
 			$request_args = array( 'resource' => $resource );
 			if ( 'books' === $resource ) {
-				$request_args['limit'] = 24;
+				$request_args['limit'] = '' !== $fair_slug ? 100 : 24;
 			}
 			if ( 'events' === $resource && 'past' === $events_when ) {
 				$request_args['when'] = 'past';
 			}
+			if ( '' !== $fair_slug ) {
+				$request_args['books' === $resource ? 'fair' : 'slug'] = $fair_slug;
+			}
 			$url = add_query_arg( $request_args, LEMONBOOK_API_BASE );
-			// gestion vuelve a responder de forma inestable en events/books (0.2s-6s); 5s de margen
-			// hacía que las peticiones más lentas fallaran sin nada que cachear. Ver inc/data.php arriba.
-			$response = wp_remote_get( $url, array( 'timeout' => 9, 'redirection' => 2 ) );
+			$response = wp_remote_get( $url, array( 'timeout' => 6, 'redirection' => 2 ) );
 			if ( ! is_wp_error( $response ) && 200 === wp_remote_retrieve_response_code( $response ) ) {
 				$decoded = json_decode( wp_remote_retrieve_body( $response ), true );
 				if ( is_array( $decoded ) && ! empty( $decoded['ok'] ) && isset( $decoded['data'] ) && is_array( $decoded['data'] ) ) {
@@ -61,6 +64,10 @@ function lemon_data_resource( string $resource, array $query = array() ): array 
 					// caducan en 60s, igual que el Cache-Control de la API; el resto cambia poco.
 					set_transient( $cache_key, $envelope, 'events' === $resource ? MINUTE_IN_SECONDS : 5 * MINUTE_IN_SECONDS );
 				}
+			}
+			if ( empty( $envelope ) ) {
+				// Caché negativa: si la API falla (o aún no publica ese recurso), no se repite la petición en cada página.
+				set_transient( $cache_key, array( 'ok' => false, 'data' => array() ), MINUTE_IN_SECONDS );
 			}
 		}
 	}
@@ -195,10 +202,11 @@ function lemon_normalize_event( mixed $event ): array {
 			'image_alt'         => '',
 			'images'            => array(),
 			'buy_url'           => '',
+			'fair'              => '',
 		)
 	);
 
-	foreach ( array( 'slug', 'name', 'short_description', 'description', 'description_html', 'starts_at', 'ends_at', 'topic', 'venue', 'venue_url', 'status', 'sale_opens_at', 'sale_closes_at', 'price_label', 'price_changes_at', 'image_alt', 'buy_url' ) as $key ) {
+	foreach ( array( 'slug', 'name', 'short_description', 'description', 'description_html', 'starts_at', 'ends_at', 'topic', 'venue', 'venue_url', 'status', 'sale_opens_at', 'sale_closes_at', 'price_label', 'price_changes_at', 'image_alt', 'buy_url', 'fair' ) as $key ) {
 		$event[ $key ] = is_string( $event[ $key ] ) ? $event[ $key ] : '';
 	}
 	$event['id'] = absint( $event['id'] );
@@ -268,8 +276,110 @@ function lemon_events( string $when = 'upcoming' ): array {
  *
  * @return array{books: array<int, array<string, mixed>>}
  */
-function lemon_books(): array {
-	$data = lemon_data_resource( 'books' );
+function lemon_books( string $fair = '' ): array {
+	$fair = sanitize_title( $fair );
+	$data = lemon_data_resource( 'books', '' !== $fair ? array( 'fair' => $fair ) : array() );
 	$books = isset( $data['books'] ) && is_array( $data['books'] ) ? $data['books'] : array();
-	return array( 'books' => array_values( array_map( 'lemon_normalize_image_record', $books ) ) );
+	$books = array_map(
+		static function ( mixed $book ): array {
+			$book = lemon_normalize_image_record( $book );
+			$book['fair'] = isset( $book['fair'] ) && is_string( $book['fair'] ) ? $book['fair'] : '';
+			return $book;
+		},
+		$books
+	);
+	if ( '' !== $fair ) {
+		// Defensa por si la API ignora el filtro (o en modo local): solo los libros de esa feria.
+		$books = array_filter( $books, static fn ( array $book ): bool => $fair === $book['fair'] );
+	}
+	return array( 'books' => array_values( $books ) );
+}
+
+/**
+ * Return the current (or a given) fair, or null when gestion publishes none.
+ *
+ * @param string $slug Optional fair slug.
+ * @return array<string, mixed>|null
+ */
+function lemon_fair( string $slug = '' ): ?array {
+	static $memo = array();
+	$slug = sanitize_title( $slug );
+	if ( array_key_exists( $slug, $memo ) ) {
+		return $memo[ $slug ];
+	}
+
+	$data = lemon_data_resource( 'fair', '' !== $slug ? array( 'fair' => $slug ) : array() );
+	$fair = isset( $data['fair'] ) && is_array( $data['fair'] ) ? $data['fair'] : null;
+	if ( ! $fair || empty( $fair['slug'] ) || ! is_string( $fair['slug'] ) ) {
+		$memo[ $slug ] = null;
+		return null;
+	}
+
+	$fair = lemon_normalize_image_record( $fair );
+	$fair = wp_parse_args(
+		$fair,
+		array(
+			'name'               => '',
+			'tagline'            => '',
+			'starts_on'          => '',
+			'ends_on'            => '',
+			'venue'              => '',
+			'venue_url'          => '',
+			'description_html'   => '',
+			'image_alt'          => '',
+			'commission_percent' => 30,
+			'registration_open'  => false,
+			'registration_url'   => '',
+			'days'               => array(),
+			'events'             => array(),
+		)
+	);
+	foreach ( array( 'slug', 'name', 'tagline', 'starts_on', 'ends_on', 'venue', 'venue_url', 'description_html', 'image_alt', 'registration_url' ) as $key ) {
+		$fair[ $key ] = is_string( $fair[ $key ] ) ? $fair[ $key ] : '';
+	}
+	$fair['commission_percent'] = (float) $fair['commission_percent'];
+	$fair['registration_open'] = (bool) $fair['registration_open'];
+
+	$days = array();
+	foreach ( is_array( $fair['days'] ) ? $fair['days'] : array() as $day ) {
+		$day = is_array( $day ) ? $day : array();
+		$slots = array();
+		foreach ( isset( $day['slots'] ) && is_array( $day['slots'] ) ? $day['slots'] : array() as $slot ) {
+			$slot = is_array( $slot ) ? $slot : array();
+			$authors = array();
+			foreach ( isset( $slot['authors'] ) && is_array( $slot['authors'] ) ? $slot['authors'] : array() as $author ) {
+				$author = is_array( $author ) ? $author : array();
+				$name = isset( $author['name'] ) && is_string( $author['name'] ) ? trim( $author['name'] ) : '';
+				if ( '' === $name ) {
+					continue;
+				}
+				$books = isset( $author['books'] ) && is_array( $author['books'] ) ? array_values( array_filter( array_map( static fn ( mixed $title ): string => is_string( $title ) ? trim( $title ) : '', $author['books'] ) ) ) : array();
+				$authors[] = array(
+					'name'  => $name,
+					'books' => $books,
+				);
+			}
+			$slots[] = array(
+				'id'        => isset( $slot['id'] ) ? absint( $slot['id'] ) : 0,
+				'starts_at' => isset( $slot['starts_at'] ) && is_string( $slot['starts_at'] ) ? $slot['starts_at'] : '',
+				'ends_at'   => isset( $slot['ends_at'] ) && is_string( $slot['ends_at'] ) ? $slot['ends_at'] : '',
+				'free'      => isset( $slot['free'] ) ? absint( $slot['free'] ) : 0,
+				'authors'   => $authors,
+			);
+		}
+		$date = isset( $day['date'] ) && is_string( $day['date'] ) ? $day['date'] : '';
+		if ( '' !== $date ) {
+			$days[] = array(
+				'date'  => $date,
+				'slots' => $slots,
+			);
+		}
+	}
+	$fair['days'] = $days;
+
+	$events = is_array( $fair['events'] ) ? $fair['events'] : array();
+	$fair['events'] = array_values( array_map( 'lemon_normalize_event', $events ) );
+
+	$memo[ $slug ] = $fair;
+	return $fair;
 }

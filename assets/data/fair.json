@@ -1,0 +1,81 @@
+{
+  "ok": true,
+  "data": {
+    "fair": {
+      "slug": "ii-encuentro-libros-vecinos-la-flota",
+      "name": "II Encuentro Literario entre Libros y Vecinos de La Flota",
+      "tagline": "Tres días para leer, firmar y charlar con quien escribe en tu barrio.",
+      "starts_on": "2026-10-16",
+      "ends_on": "2026-10-18",
+      "venue": "Lemon Book & Coffee, La Flota (Murcia)",
+      "venue_url": "https://maps.app.goo.gl/ejemplo",
+      "description_html": "<p>Ejemplo de descripción de la feria. Autoras y autores del barrio y de la Región de Murcia presentan y firman sus libros durante tres días.</p><p>Habrá presentaciones, coloquios y firmas por franjas horarias.</p>",
+      "image": "",
+      "image_large": "",
+      "image_alt": "Cartel del II Encuentro Literario entre Libros y Vecinos de La Flota",
+      "commission_percent": 30,
+      "registration_open": true,
+      "registration_url": "https://gestion.lemonbookandcoffe.es/feria.php?f=ii-encuentro-libros-vecinos-la-flota",
+      "days": [
+        {
+          "date": "2026-10-16",
+          "slots": [
+            {
+              "id": 1,
+              "starts_at": "2026-10-16 17:00:00",
+              "ends_at": "2026-10-16 19:00:00",
+              "free": 1,
+              "authors": [
+                { "name": "Autora de ejemplo", "books": ["Libro de ejemplo de autor murciano"] },
+                { "name": "Otro Autor", "books": ["Libro de ejemplo sin enlace de compra"] }
+              ]
+            },
+            {
+              "id": 2,
+              "starts_at": "2026-10-16 19:00:00",
+              "ends_at": "2026-10-16 21:00:00",
+              "free": 0,
+              "authors": []
+            }
+          ]
+        },
+        {
+          "date": "2026-10-17",
+          "slots": [
+            {
+              "id": 3,
+              "starts_at": "2026-10-17 11:00:00",
+              "ends_at": "2026-10-17 13:00:00",
+              "free": 3,
+              "authors": []
+            }
+          ]
+        },
+        {
+          "date": "2026-10-18",
+          "slots": []
+        }
+      ],
+      "events": [
+        {
+          "id": 21,
+          "slug": "inauguracion-ii-encuentro-21",
+          "name": "Inauguración y primera ronda de firmas",
+          "short_description": "Apertura del encuentro con los vecinos.",
+          "starts_at": "2026-10-16 17:00:00",
+          "ends_at": "2026-10-16 19:00:00",
+          "topic": "Feria",
+          "venue": "Lemon Book & Coffee",
+          "price": 0,
+          "status": "open",
+          "sale_open": true,
+          "remaining": 40,
+          "buy_url": "https://gestion.lemonbookandcoffe.es/evento.php?e=21",
+          "fair": "ii-encuentro-libros-vecinos-la-flota",
+          "images": {}
+        }
+      ]
+    }
+  },
+  "generated_at": "2026-09-28T12:00:00+02:00"
+}

@@ -127,6 +127,16 @@ Cuando `site.hero_image` existe, es la imagen LCP del hero, con recorte 4:3, bor
 
 `description_html` se vuelve a filtrar con `wp_kses`, enlaces limitados a HTTPS y esta lista blanca propia: `p`, `br`, `strong`, `b`, `em`, `i`, `ul`, `ol`, `li`, `h3`, `h4` y `a` únicamente con `href` y `rel`. Si no hay HTML se muestra `description` como texto plano escapado.
 
+## Feria (II Encuentro Literario entre Libros y Vecinos de La Flota)
+
+Actividad de varios días con identidad propia; **no entra en el carrusel de eventos**. Todo sale de `lemon_fair()` (recurso `fair` de gestion; contrato en `ENCARGO_FERIA_GESTION.md`). Sin feria publicada, ninguna de estas piezas se renderiza.
+
+- Landing en `/feria/{slug}/` (`page-feria.php`, sin página de WordPress): la ruta, el 404 de slugs inexistentes, el SEO y el JSON-LD `Event` con `subEvent` viven en `inc/fair.php`. Secciones: portada, sobre el encuentro, programa día a día (actividades y firmas por franja con plazas libres), libros del encuentro, llamada a autores con la comisión real de la feria y cómo llegar.
+- Portada: banner `template-parts/fair-banner.php` sobre el carrusel y aviso emergente (`<dialog>`, `assets/js/fair-popup.js`) en el resto de páginas; se recuerda 3 días tras cerrarlo y no se abre si el usuario está escribiendo.
+- Librería: sección «Libros de…» arriba (libros con `fair` igual al slug, vía `lemon_books( $slug )`); el catálogo general no los repite.
+- La inscripción de autores (día y franja, obras, precio, ejemplares, portada y aceptación expresa de la comisión) vive en gestion (`registration_url`), igual que la reserva de eventos.
+- `lemon_data_resource()` cachea 60 s las respuestas erróneas para no repetir la petición en cada página mientras gestion no publique un recurso.
+
 ## Promociones de la carta en portada
 
 `front-page.php` sustituye el antiguo resumen de los 4 primeros platos por un bloque **«Nuestras promociones»** que solo muestra los platos con `featured: true` en `lemon_menu()`, de cualquier categoría (sin límite fijo: los marca quien gestiona la carta). Si `lemon_menu()` devuelve categorías pero ninguna con `featured`, se muestra un aviso amable en vez de la sección vacía; si la API falla del todo, se mantiene el aviso genérico de siempre. La página completa `/carta/` no filtra por este campo: sigue mostrando el menú entero.
