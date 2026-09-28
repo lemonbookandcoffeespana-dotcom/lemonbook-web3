@@ -57,10 +57,9 @@ function lemon_data_resource( string $resource, array $query = array() ): array 
 				$decoded = json_decode( wp_remote_retrieve_body( $response ), true );
 				if ( is_array( $decoded ) && ! empty( $decoded['ok'] ) && isset( $decoded['data'] ) && is_array( $decoded['data'] ) ) {
 					$envelope = $decoded;
-					// gestion respondía ~6s en menu/events/books en sep-2026 (posible índice faltante, en seguimiento).
-					// Con timeout de 5s por llamada, un caché corto hace que casi cada visita pague esa espera.
-					// 10 minutos amortigua eso; bajar este valor cuando gestion confirme que ya responde rápido.
-					set_transient( $cache_key, $envelope, 10 * MINUTE_IN_SECONDS );
+					// gestion ya responde en <1s. Los eventos llevan aforo en vivo (plazas restantes), así que
+					// caducan en 60s, igual que el Cache-Control de la API; el resto cambia poco.
+					set_transient( $cache_key, $envelope, 'events' === $resource ? MINUTE_IN_SECONDS : 5 * MINUTE_IN_SECONDS );
 				}
 			}
 		}
