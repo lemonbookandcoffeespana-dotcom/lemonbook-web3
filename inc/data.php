@@ -55,7 +55,7 @@ function lemon_data_resource( string $resource, array $query = array() ): array 
 				$request_args['books' === $resource ? 'fair' : 'slug'] = $fair_slug;
 			}
 			$url = add_query_arg( $request_args, LEMONBOOK_API_BASE );
-			$response = wp_remote_get( $url, array( 'timeout' => 6, 'redirection' => 2 ) );
+			$response = wp_remote_get( $url, array( 'timeout' => 10, 'redirection' => 2 ) );
 			if ( ! is_wp_error( $response ) && 200 === wp_remote_retrieve_response_code( $response ) ) {
 				$decoded = json_decode( wp_remote_retrieve_body( $response ), true );
 				if ( is_array( $decoded ) && ! empty( $decoded['ok'] ) && isset( $decoded['data'] ) && is_array( $decoded['data'] ) ) {
