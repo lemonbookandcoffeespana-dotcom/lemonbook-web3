@@ -15,13 +15,15 @@ $wide_url = isset( $wide['url'] ) ? (string) $wide['url'] : '';
 $image = isset( $event['image'] ) ? (string) $event['image'] : '';
 $image_large = isset( $event['image_large'] ) ? (string) $event['image_large'] : '';
 $image_src = $wide_thumb ?: $image;
+// Sin variante apaisada el cartel se muestra entero (puede ser vertical), no recortado.
+$natural = ! $wide_thumb;
 $image_alt = isset( $event['image_alt'] ) && $event['image_alt'] ? (string) $event['image_alt'] : $name;
 $srcset = $wide_thumb
 	? implode( ', ', array_filter( array( esc_url_raw( $wide_thumb ) . ' 400w', $wide_url ? esc_url_raw( $wide_url ) . ' 1200w' : '' ) ) )
 	: implode( ', ', array_filter( array( $image ? esc_url_raw( $image ) . ' 400w' : '', $image_large ? esc_url_raw( $image_large ) . ' 1200w' : '' ) ) );
 ?>
 <a class="event-carousel-card event-carousel-card--<?php echo esc_attr( $status ); ?><?php echo esc_attr( $image_src ? ' has-image' : '' ); ?>" href="<?php echo esc_url( lemon_event_url( $event ) ); ?>">
-	<?php if ( $image_src ) : ?><span class="event-carousel-card__media" data-image-fallback><img data-content-image src="<?php echo esc_url( $image_src ); ?>"<?php if ( $srcset ) : ?> srcset="<?php echo esc_attr( $srcset ); ?>" sizes="(max-width: 47.99rem) 78vw, 22rem"<?php endif; ?> width="600" height="400" loading="lazy" decoding="async" alt="<?php echo esc_attr( $image_alt ); ?>"><span class="image-placeholder image-fallback" role="img" aria-label="<?php esc_attr_e( 'Imagen no disponible', 'lemonbook' ); ?>"></span></span><?php endif; ?>
+	<?php if ( $image_src ) : ?><span class="event-carousel-card__media<?php echo esc_attr( $natural ? ' is-natural' : '' ); ?>" data-image-fallback><img data-content-image src="<?php echo esc_url( $image_src ); ?>"<?php if ( $srcset ) : ?> srcset="<?php echo esc_attr( $srcset ); ?>" sizes="(max-width: 47.99rem) 78vw, 22rem"<?php endif; ?> width="600" height="400" loading="lazy" decoding="async" alt="<?php echo esc_attr( $image_alt ); ?>"><span class="image-placeholder image-fallback" role="img" aria-label="<?php esc_attr_e( 'Imagen no disponible', 'lemonbook' ); ?>"></span></span><?php endif; ?>
 	<span class="event-carousel-card__body">
 		<span class="event-status event-status--<?php echo esc_attr( $status ); ?>"><?php echo esc_html( lemon_event_status_label( $status ) ); ?></span>
 		<span class="event-date"><?php echo esc_html( lemon_date( $event['starts_at'] ?? '' ) ); ?></span>

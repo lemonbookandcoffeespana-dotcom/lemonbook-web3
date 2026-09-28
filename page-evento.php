@@ -19,6 +19,8 @@ get_header();
 		$wide_thumb = isset( $wide['thumb'] ) ? (string) $wide['thumb'] : '';
 		$wide_url = isset( $wide['url'] ) ? (string) $wide['url'] : '';
 		$event_src = $wide_url ?: (string) $selected['image_large'];
+			// Sin variante apaisada el cartel se muestra entero (puede ser vertical), no recortado.
+			$natural = ! $wide_url;
 		$image_alt = $selected['image_alt'] ? (string) $selected['image_alt'] : $name;
 		$event_srcset = $wide_url
 			? implode( ', ', array_filter( array( $wide_thumb ? esc_url_raw( $wide_thumb ) . ' 400w' : '', esc_url_raw( $wide_url ) . ' 1200w' ) ) )
@@ -44,7 +46,7 @@ get_header();
 			</div>
 		</div></header>
 		<section class="section"><div class="shell">
-			<?php if ( $event_src ) : ?><figure class="event-hero-media" data-image-fallback><img data-content-image src="<?php echo esc_url( $event_src ); ?>"<?php if ( $event_srcset ) : ?> srcset="<?php echo esc_attr( $event_srcset ); ?>" sizes="(max-width: 1215px) calc(100vw - 2rem), 1216px"<?php endif; ?> width="1200" height="800" decoding="async" alt="<?php echo esc_attr( $image_alt ); ?>"><div class="image-placeholder image-fallback" role="img" aria-label="<?php esc_attr_e( 'Imagen no disponible', 'lemonbook' ); ?>"></div></figure><?php endif; ?>
+			<?php if ( $event_src ) : ?><figure class="event-hero-media<?php echo esc_attr( $natural ? ' is-natural' : '' ); ?>" data-image-fallback><img data-content-image src="<?php echo esc_url( $event_src ); ?>"<?php if ( $event_srcset ) : ?> srcset="<?php echo esc_attr( $event_srcset ); ?>" sizes="(max-width: 1215px) calc(100vw - 2rem), 1216px"<?php endif; ?> width="1200" height="800" decoding="async" alt="<?php echo esc_attr( $image_alt ); ?>"><div class="image-placeholder image-fallback" role="img" aria-label="<?php esc_attr_e( 'Imagen no disponible', 'lemonbook' ); ?>"></div></figure><?php endif; ?>
 			<div class="detail-layout<?php echo esc_attr( $has_main_content ? '' : ' detail-layout--sidebar-only' ); ?>">
 				<?php if ( $has_main_content ) : ?><div class="event-detail-content">
 					<?php if ( $description_html || $description ) : ?><section aria-labelledby="event-description-title"><h2 id="event-description-title"><?php esc_html_e( 'Sobre el evento', 'lemonbook' ); ?></h2><?php if ( $description_html ) : ?><?php echo wp_kses( $description_html, lemon_event_allowed_html(), array( 'https' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Filtered with the event-specific allowlist and HTTPS-only links. ?><?php else : ?><p><?php echo esc_html( $description ); ?></p><?php endif; ?></section><?php endif; ?>
