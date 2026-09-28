@@ -63,11 +63,15 @@ function lemon_data_resource( string $resource, array $query = array() ): array 
 					// gestion ya responde en <1s. Los eventos llevan aforo en vivo (plazas restantes), así que
 					// caducan en 60s, igual que el Cache-Control de la API; el resto cambia poco.
 					set_transient( $cache_key, $envelope, 'events' === $resource ? MINUTE_IN_SECONDS : 5 * MINUTE_IN_SECONDS );
+					// Última respuesta buena: se sirve si gestion tarda o falla, en vez de dejar la página vacía.
+					set_transient( $cache_key . '_lkg', $envelope, 7 * DAY_IN_SECONDS );
 				}
 			}
 			if ( empty( $envelope ) ) {
-				// Caché negativa: si la API falla (o aún no publica ese recurso), no se repite la petición en cada página.
-				set_transient( $cache_key, array( 'ok' => false, 'data' => array() ), MINUTE_IN_SECONDS );
+				// Si la API falla, se sirve la última copia buena (si la hay). El fallo se cachea 60 s para no repetir la petición en cada página.
+				$stale    = get_transient( $cache_key . '_lkg' );
+				$envelope = is_array( $stale ) ? $stale : array();
+				set_transient( $cache_key, $envelope ? $envelope : array( 'ok' => false, 'data' => array() ), MINUTE_IN_SECONDS );
 			}
 		}
 	}
