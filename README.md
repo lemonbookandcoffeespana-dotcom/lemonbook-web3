@@ -122,7 +122,7 @@ Cuando `site.hero_image` existe, es la imagen LCP del hero, con recorte 4:3, bor
 - `page-evento.php` resuelve exclusivamente mediante `lemon_current_event()` y presenta los estados `open`, `pending`, `sold_out`, `closed`, `cancelled` y `past` con texto e icono, sin depender solo del color.
 - `lemon_event_price_text( $event )` unifica el importe de ficha, tarjetas y portada: antepone `price_label` cuando existe y conserva «Gratis» para precio cero.
 - `template-parts/waitlist-form.php` contiene la lista de espera reutilizable para eventos agotados con `waitlist_open`. Envía a `/wp-json/lemonbook/v1/forms/waitlist` mediante el manejador existente.
-- La acción disponible se denomina **Reservar** y abre `buy_url` en la misma pestaña. `price_changes_at` informa del cambio de precio; `sale_closes_at` se conserva como dato contractual, pero no se presenta como final del precio web. Cuando corresponde, se indican el pago pendiente en el local y la elección de mesa.
+- La acción disponible se denomina **Reservar** y abre `buy_url` en la misma pestaña. `price_changes_at` informa del cambio de precio; `sale_closes_at` se conserva como dato contractual, pero no se presenta como final del precio web. Cuando corresponde, se indican el pago (`pay_online`: se puede pagar ahora con tarjeta o en el local; si no, solo en el local) y la elección de mesa.
 - El menú del evento se agrupa por categoría; cada opción distingue **Incluido** o el importe que **se paga aparte**.
 
 `description_html` se vuelve a filtrar con `wp_kses`, enlaces limitados a HTTPS y esta lista blanca propia: `p`, `br`, `strong`, `b`, `em`, `i`, `ul`, `ol`, `li`, `h3`, `h4` y `a` únicamente con `href` y `rel`. Si no hay HTML se muestra `description` como texto plano escapado.

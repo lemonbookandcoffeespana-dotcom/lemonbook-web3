@@ -32,7 +32,8 @@
         "price_changes_at": null,
         "pay_at_venue": true,
         "table_booking": false,
-        "fair": null
+        "fair": null,
+        "pay_online": false
       }
     ]
   },

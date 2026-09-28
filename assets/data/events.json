@@ -60,7 +60,8 @@
         "price_changes_at": "2026-10-02 23:59:00",
         "pay_at_venue": true,
         "table_booking": true,
-        "fair": null
+        "fair": null,
+        "pay_online": true
       },
       {
         "id": 13,
@@ -94,7 +95,8 @@
         "price_changes_at": null,
         "pay_at_venue": true,
         "table_booking": false,
-        "fair": null
+        "fair": null,
+        "pay_online": false
       },
       {
         "id": 14,
@@ -128,7 +130,8 @@
         "price_changes_at": null,
         "pay_at_venue": true,
         "table_booking": false,
-        "fair": null
+        "fair": null,
+        "pay_online": true
       },
       {
         "id": 15,
@@ -162,7 +165,8 @@
         "price_changes_at": null,
         "pay_at_venue": true,
         "table_booking": false,
-        "fair": null
+        "fair": null,
+        "pay_online": true
       },
       {
         "id": 16,
@@ -196,7 +200,8 @@
         "price_changes_at": null,
         "pay_at_venue": true,
         "table_booking": false,
-        "fair": null
+        "fair": null,
+        "pay_online": true
       }
     ]
   },

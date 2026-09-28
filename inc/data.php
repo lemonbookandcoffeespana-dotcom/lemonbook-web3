@@ -201,6 +201,7 @@ function lemon_normalize_event( mixed $event ): array {
 			'sold_out'          => false,
 			'waitlist_open'     => false,
 			'pay_at_venue'      => false,
+			'pay_online'        => false,
 			'table_booking'     => false,
 			'menu_options'      => array(),
 			'image_alt'         => '',
@@ -220,6 +221,7 @@ function lemon_normalize_event( mixed $event ): array {
 	$event['sold_out'] = (bool) $event['sold_out'];
 	$event['waitlist_open'] = (bool) $event['waitlist_open'];
 	$event['pay_at_venue'] = (bool) $event['pay_at_venue'];
+	$event['pay_online'] = (bool) $event['pay_online'];
 	$event['table_booking'] = (bool) $event['table_booking'];
 	$event['status'] = in_array( $event['status'], array( 'open', 'pending', 'sold_out', 'closed', 'cancelled', 'past' ), true ) ? $event['status'] : 'closed';
 	$event['images'] = lemon_normalize_event_images( $event['images'] );
