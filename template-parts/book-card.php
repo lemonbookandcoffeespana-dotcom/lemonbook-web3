@@ -22,15 +22,15 @@ $srcset      = implode(
 	)
 );
 $buy_url     = isset( $book['buy_url'] ) ? (string) $book['buy_url'] : '';
+$murciano    = ! empty( $book['murciano'] );
 ?>
-<article class="card book-card">
+<article class="card book-card" data-book data-book-name="<?php echo esc_attr( lemon_search_key( $name ) ); ?>" data-book-author="<?php echo esc_attr( lemon_search_key( $author ) ); ?>" data-book-murciano="<?php echo esc_attr( $murciano ? '1' : '0' ); ?>">
 	<?php if ( $image_src ) : ?>
-		<div class="book-card__media" data-image-fallback><img data-content-image src="<?php echo esc_url( $image_src ); ?>"<?php if ( $srcset ) : ?> srcset="<?php echo esc_attr( $srcset ); ?>" sizes="(max-width: 767px) calc(50vw - 1.5rem), (max-width: 1119px) calc(33.333vw - 2rem), 17rem"<?php endif; ?> width="400" height="600" loading="lazy" decoding="async" alt="<?php echo esc_attr( $name ); ?>"><div class="image-placeholder image-fallback" role="img" aria-label="<?php esc_attr_e( 'Imagen no disponible', 'lemonbook' ); ?>"></div></div>
+		<div class="book-card__media" data-image-fallback><img data-content-image src="<?php echo esc_url( $image_src ); ?>"<?php if ( $srcset ) : ?> srcset="<?php echo esc_attr( $srcset ); ?>" sizes="(max-width: 767px) calc(50vw - 1.5rem), (max-width: 1119px) calc(33.333vw - 2rem), 17rem"<?php endif; ?> width="400" height="600" loading="lazy" decoding="async" alt="<?php echo esc_attr( $name ); ?>"><div class="image-placeholder image-fallback" role="img" aria-label="<?php esc_attr_e( 'Imagen no disponible', 'lemonbook' ); ?>"></div><?php if ( $murciano ) : ?><span class="tag tag--yellow book-card__badge"><?php esc_html_e( 'Autoría murciana', 'lemonbook' ); ?></span><?php endif; ?></div>
 	<?php else : ?>
-		<div class="image-placeholder book-card__media" role="img" aria-label="<?php esc_attr_e( 'Imagen no disponible', 'lemonbook' ); ?>"></div>
+		<div class="image-placeholder book-card__media" role="img" aria-label="<?php esc_attr_e( 'Imagen no disponible', 'lemonbook' ); ?>"><?php if ( $murciano ) : ?><span class="tag tag--yellow book-card__badge"><?php esc_html_e( 'Autoría murciana', 'lemonbook' ); ?></span><?php endif; ?></div>
 	<?php endif; ?>
 	<div class="card__body">
-		<?php if ( ! empty( $book['murciano'] ) ) : ?><p><span class="tag tag--yellow"><?php esc_html_e( 'Autoría murciana', 'lemonbook' ); ?></span></p><?php endif; ?>
 		<h3><?php echo esc_html( $name ?: __( 'Libro sin título', 'lemonbook' ) ); ?></h3>
 		<?php if ( $author ) : ?><p class="meta"><?php echo esc_html( $author ); ?></p><?php endif; ?>
 		<?php if ( $description ) : ?><p><?php echo esc_html( $description ); ?></p><?php endif; ?>

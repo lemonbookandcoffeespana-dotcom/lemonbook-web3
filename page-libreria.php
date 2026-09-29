@@ -25,7 +25,17 @@ get_header();
 	<?php endif; ?>
 	<section class="section"><div class="shell">
 		<?php if ( $fair && $fair_books['books'] ) : ?><header class="section-header"><h2><?php esc_html_e( 'Catálogo', 'lemonbook' ); ?></h2></header><?php endif; ?>
-		<?php if ( $catalog ) : ?><div class="grid book-grid"><?php foreach ( $catalog as $book ) { get_template_part( 'template-parts/book-card', null, $book ); } ?></div><?php else : ?><p class="empty-state"><?php esc_html_e( 'La selección de libros estará disponible muy pronto.', 'lemonbook' ); ?></p><?php endif; ?>
+		<?php if ( $catalog ) : ?>
+			<div class="book-filters" data-book-filters>
+				<div class="book-filters__search">
+					<label class="screen-reader-text" for="book-search"><?php esc_html_e( 'Buscar por título o autor', 'lemonbook' ); ?></label>
+					<input type="search" id="book-search" data-book-search placeholder="<?php esc_attr_e( 'Buscar por título o autor…', 'lemonbook' ); ?>">
+				</div>
+				<label class="book-filters__toggle"><input type="checkbox" data-book-murciano-filter> <?php esc_html_e( 'Solo autoría murciana', 'lemonbook' ); ?></label>
+			</div>
+			<div class="grid book-grid" data-book-grid><?php foreach ( $catalog as $book ) { get_template_part( 'template-parts/book-card', null, $book ); } ?></div>
+			<p class="empty-state" data-book-empty hidden><?php esc_html_e( 'Ningún libro coincide con esa búsqueda.', 'lemonbook' ); ?></p>
+		<?php else : ?><p class="empty-state"><?php esc_html_e( 'La selección de libros estará disponible muy pronto.', 'lemonbook' ); ?></p><?php endif; ?>
 	</div></section>
 </main>
 <?php get_footer(); ?>

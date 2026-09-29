@@ -127,6 +127,12 @@ Cuando `site.hero_image` existe, es la imagen LCP del hero, con recorte 4:3, bor
 
 `description_html` se vuelve a filtrar con `wp_kses`, enlaces limitados a HTTPS y esta lista blanca propia: `p`, `br`, `strong`, `b`, `em`, `i`, `ul`, `ol`, `li`, `h3`, `h4` y `a` únicamente con `href` y `rel`. Si no hay HTML se muestra `description` como texto plano escapado.
 
+## Librería
+
+- `page-libreria.php`: catálogo general (`lemon_books()`, sin los libros de una feria activa) con buscador de texto y filtro «Solo autoría murciana», ambos en `assets/js/book-filter.js` (solo se carga en esta página), sin volver a pedir datos a gestion. Cada tarjeta lleva `data-book-name`/`data-book-author` (vía `lemon_search_key()`: minúsculas y sin acentos) y `data-book-murciano` para filtrar en el navegador.
+- `template-parts/book-card.php`: portada con `object-fit: contain` sobre fondo crema (integra el lienzo blanco de origen) y, si el libro es de autoría murciana, la insignia se superpone sobre la propia portada en vez de ir en el cuerpo de la tarjeta.
+- Aún no existe `category` en el contrato de `books()`; en cuanto gestion lo exponga (mismo patrón que las categorías de la carta), se añade como filtro más.
+
 ## Feria (II Encuentro Literario entre Libros y Vecinos de La Flota)
 
 Actividad de varios días con identidad propia; **no entra en el carrusel de eventos**. Todo sale de `lemon_fair()` (recurso `fair` de gestion; contrato en `ENCARGO_FERIA_GESTION.md`). Sin feria publicada, ninguna de estas piezas se renderiza.

@@ -17,6 +17,14 @@ function lemon_price( mixed $amount ): string {
 }
 
 /**
+ * Lowercase, accent-stripped key for cheap client-side text filtering (data-* attributes).
+ */
+function lemon_search_key( string $value ): string {
+	$value = remove_accents( $value );
+	return strtolower( trim( $value ) );
+}
+
+/**
  * Return an event amount together with its optional public price label.
  *
  * @param array<string, mixed> $event Event data.
