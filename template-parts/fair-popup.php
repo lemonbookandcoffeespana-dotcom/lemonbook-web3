@@ -9,10 +9,13 @@ $fair = isset( $args['fair'] ) && is_array( $args['fair'] ) ? $args['fair'] : ar
 if ( ! $fair ) {
 	return;
 }
-$next = lemon_fair_next_events( $fair, 3 );
+$next   = lemon_fair_next_events( $fair, 3 );
+$poster = '' !== $fair['image_large'] ? $fair['image_large'] : $fair['image'];
+$poster_srcset = implode( ', ', array_filter( array( $fair['image'] ? esc_url_raw( $fair['image'] ) . ' 400w' : '', $fair['image_large'] ? esc_url_raw( $fair['image_large'] ) . ' 1200w' : '' ) ) );
 ?>
 <dialog class="fair-popup" data-fair-popup data-fair="<?php echo esc_attr( $fair['slug'] ); ?>" aria-labelledby="fair-popup-title">
 	<button type="button" class="fair-popup__close" data-close aria-label="<?php esc_attr_e( 'Cerrar aviso', 'lemonbook' ); ?>"><span aria-hidden="true">×</span></button>
+	<?php if ( $poster ) : ?><div class="fair-popup__poster" data-image-fallback><img data-content-image src="<?php echo esc_url( $poster ); ?>"<?php if ( $poster_srcset ) : ?> srcset="<?php echo esc_attr( $poster_srcset ); ?>"<?php endif; ?> sizes="9rem" width="400" height="600" decoding="async" alt=""><div class="image-placeholder image-fallback" role="img" aria-label="<?php esc_attr_e( 'Imagen no disponible', 'lemonbook' ); ?>"></div></div><?php endif; ?>
 	<p class="kicker"><?php echo esc_html( lemon_fair_dates( $fair ) ); ?></p>
 	<h2 id="fair-popup-title"><?php echo esc_html( $fair['name'] ); ?></h2>
 	<?php if ( $fair['venue'] ) : ?><p class="fair-popup__venue"><?php echo esc_html( $fair['venue'] ); ?></p><?php endif; ?>

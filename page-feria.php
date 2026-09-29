@@ -32,7 +32,7 @@ get_header();
 					<?php if ( $fair['registration_open'] && $fair['registration_url'] ) : ?><a class="button button--ghost" href="<?php echo esc_url( $fair['registration_url'] ); ?>"><?php esc_html_e( 'Inscribe tu libro', 'lemonbook' ); ?></a><?php endif; ?>
 				</div>
 			</div>
-			<?php if ( $image_src ) : ?><figure class="fair-hero__media" data-image-fallback><img data-content-image src="<?php echo esc_url( $image_src ); ?>"<?php if ( $image_srcset ) : ?> srcset="<?php echo esc_attr( $image_srcset ); ?>" sizes="(max-width: 55.99rem) calc(100vw - 2rem), 34rem"<?php endif; ?> width="1200" height="800" fetchpriority="high" decoding="async" alt="<?php echo esc_attr( $fair['image_alt'] ?: $fair['name'] ); ?>"><div class="image-placeholder image-fallback" role="img" aria-label="<?php esc_attr_e( 'Imagen no disponible', 'lemonbook' ); ?>"></div></figure><?php endif; ?>
+			<?php if ( $image_src ) : ?><figure class="fair-hero__media" data-image-fallback><img data-content-image src="<?php echo esc_url( $image_src ); ?>"<?php if ( $image_srcset ) : ?> srcset="<?php echo esc_attr( $image_srcset ); ?>" sizes="(max-width: 55.99rem) 60vw, 22rem"<?php endif; ?> width="800" height="1200" fetchpriority="high" decoding="async" alt="<?php echo esc_attr( $fair['image_alt'] ?: $fair['name'] ); ?>"><div class="image-placeholder image-fallback" role="img" aria-label="<?php esc_attr_e( 'Imagen no disponible', 'lemonbook' ); ?>"></div></figure><?php endif; ?>
 		</div>
 	</header>
 

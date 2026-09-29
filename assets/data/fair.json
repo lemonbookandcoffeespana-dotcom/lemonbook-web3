@@ -10,8 +10,8 @@
       "venue": "Lemon Book & Coffee, La Flota (Murcia)",
       "venue_url": "https://maps.app.goo.gl/ejemplo",
       "description_html": "<p>Ejemplo de descripción de la feria. Autoras y autores del barrio y de la Región de Murcia presentan y firman sus libros durante tres días.</p><p>Habrá presentaciones, coloquios y firmas por franjas horarias.</p>",
-      "image": "",
-      "image_large": "",
+      "image": "https://gestion.lemonbookandcoffe.es/uploads/events/event-2-vertical-1789932609-0c0693-t.jpg",
+      "image_large": "https://gestion.lemonbookandcoffe.es/uploads/events/event-2-vertical-1789932609-0c0693.jpg",
       "image_alt": "Cartel del II Encuentro Literario entre Libros y Vecinos de La Flota",
       "commission_percent": 30,
       "registration_open": true,
@@ -26,8 +26,18 @@
               "ends_at": "2026-10-16 19:00:00",
               "free": 1,
               "authors": [
-                { "name": "Autora de ejemplo", "books": ["Libro de ejemplo de autor murciano"] },
-                { "name": "Otro Autor", "books": ["Libro de ejemplo sin enlace de compra"] }
+                {
+                  "name": "Autora de ejemplo",
+                  "books": [
+                    "Libro de ejemplo de autor murciano"
+                  ]
+                },
+                {
+                  "name": "Otro Autor",
+                  "books": [
+                    "Libro de ejemplo sin enlace de compra"
+                  ]
+                }
               ]
             },
             {

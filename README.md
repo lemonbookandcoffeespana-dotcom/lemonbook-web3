@@ -133,6 +133,7 @@ Actividad de varios días con identidad propia; **no entra en el carrusel de eve
 
 - Landing en `/feria/{slug}/` (`page-feria.php`, sin página de WordPress): la ruta, el 404 de slugs inexistentes, el SEO y el JSON-LD `Event` con `subEvent` viven en `inc/fair.php`. Secciones: portada, sobre el encuentro, programa día a día (actividades y firmas por franja con plazas libres), libros del encuentro, llamada a autores con la comisión real de la feria y cómo llegar.
 - Portada: banner `template-parts/fair-banner.php` sobre el carrusel y aviso emergente (`<dialog>`, `assets/js/fair-popup.js`) en el resto de páginas; se recuerda 3 días tras cerrarlo y no se abre si el usuario está escribiendo.
+- Cartel: `fair.image`/`image_large` es **un único cartel vertical** (contain 2/3, sin recorte apaisado) que identifica la feria entera; se repite en el aviso, el banner y la portada de la landing. El del aviso carga sin `loading="lazy"` porque un `<dialog>` cerrado no tiene caja de layout y el navegador nunca dispararía la carga diferida hasta abrirlo.
 - Librería: sección «Libros de…» arriba (libros con `fair` igual al slug, vía `lemon_books( $slug )`); el catálogo general no los repite.
 - La inscripción de autores (día y franja, obras, precio, ejemplares, portada y aceptación expresa de la comisión) vive en gestion (`registration_url`), igual que la reserva de eventos.
 - `lemon_data_resource()` cachea 60 s las respuestas erróneas para no repetir la petición en cada página mientras gestion no publique un recurso.
