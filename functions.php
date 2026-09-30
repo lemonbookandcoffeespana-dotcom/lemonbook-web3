@@ -53,6 +53,9 @@ function lemonbook_assets(): void {
 	if ( is_page( 'libreria' ) ) {
 		wp_enqueue_script( 'lemonbook-book-filter', get_template_directory_uri() . '/assets/js/book-filter.js', array(), $version, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 	}
+	if ( is_page_template( 'page-feria-flota.php' ) ) {
+		wp_enqueue_style( 'lemonbook-flota', get_template_directory_uri() . '/assets/css/flota.css', array( 'lemonbook-main' ), $version );
+	}
 }
 add_action( 'wp_enqueue_scripts', 'lemonbook_assets' );
 

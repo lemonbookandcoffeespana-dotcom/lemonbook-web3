@@ -117,6 +117,14 @@ Cuando `site.hero_image` existe, es la imagen LCP del hero, con recorte 4:3, bor
 
 `header.php` añade un enlace **Carrito** (con el número de productos, si hay alguno) junto al menú, visible en cualquier página salvo en el propio carrito o el checkout. Solo se muestra si WooCommerce está activo (`function_exists( 'wc_get_cart_url' )`); si no, no se renderiza nada.
 
+## Feria del Libro y Mercadillo Artesanal (La Flota)
+
+`page-feria-flota.php` (`Template Name: Feria del Libro y Mercadillo (La Flota)`) es una plantilla seleccionable desde Atributos de página, para la II Feria del Libro y Mercadillo Artesanal de La Flota — organizada por la Junta Municipal Vistalegre-La Flota, **no por Lemon** (Lemon solo gestiona la venta de libros) y **no relacionada** con el módulo de «Feria» de `inc/fair.php`/gestion (ver más abajo): son dos eventos distintos.
+
+Sustituye a la página que existía en Elementor con el mismo contenido (autores, horarios, normativa, ubicación), reestructurado en tarjetas y columnas en vez de bloques apilados uno debajo de otro, y sin fondo crema ni amarillo en ningún punto de la página (`assets/css/flota.css`, solo se carga con `is_page_template( 'page-feria-flota.php' )`; `.button--accent` se sobreescribe a `--brand-tertiary` dentro de `.flota` para no usar amarillo).
+
+Autores, turnos y programación están escritos a mano en el propio archivo (evento externo y puntual, no gestionado desde gestion). Al migrar el contenido real se corrigieron dos cosas de la página original: la tabla de autores decía «17 DE MAYO» en los encabezados de turno pese a que el resto de la página dice «17 de abril» (asumido error, revisar con Víctor), y el botón «Formulario de participación» enlazaba a `#autores` sin ningún formulario real detrás — aquí lleva a un `mailto:` hasta que exista uno de verdad.
+
 ## Módulo de eventos
 
 - `lemon_event_url( $event )` centraliza la URL actual de la ficha. Las plantillas nunca construyen `?event_id=` directamente.
