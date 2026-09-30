@@ -113,6 +113,10 @@ Todas las imágenes remotas de contenido tienen respaldo ante errores HTTP o ind
 
 Cuando `site.hero_image` existe, es la imagen LCP del hero, con recorte 4:3, borde oliva y esquinas redondeadas. Si está vacío, se conserva el logo circular sobre un disco `#F2F5DC` con borde `#1B3D2E` y una holgura aproximada de 1/6. Ambos casos reservan dimensiones y usan `fetchpriority="high"`.
 
+## Cabecera
+
+`header.php` añade un enlace **Carrito** (con el número de productos, si hay alguno) junto al menú, visible en cualquier página salvo en el propio carrito o el checkout. Solo se muestra si WooCommerce está activo (`function_exists( 'wc_get_cart_url' )`); si no, no se renderiza nada.
+
 ## Módulo de eventos
 
 - `lemon_event_url( $event )` centraliza la URL actual de la ficha. Las plantillas nunca construyen `?event_id=` directamente.

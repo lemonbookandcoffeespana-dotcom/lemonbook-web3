@@ -25,6 +25,8 @@ h3{font-size:clamp(1.35rem,3vw,2rem)}
 .site-brand{display:block;min-width:0;flex:0 1 auto;padding:.35rem 0;text-decoration:none}
 .brand-logo--header{width:clamp(8.5rem,34vw,16.5rem);max-width:100%;height:auto}
 .menu-toggle{display:inline-flex;max-width:calc(100vw - 2rem);flex:0 0 auto;align-items:center;gap:.6rem;border:1px solid var(--brand-primary);padding:.65rem .8rem;background:transparent;color:var(--brand-primary);font-weight:700}
+.cart-link{display:inline-flex;flex:0 0 auto;align-items:center;gap:.4rem;margin-left:.5rem;border:1px solid var(--brand-primary);padding:.65rem .8rem;background:transparent;color:var(--brand-primary);font-weight:700;text-decoration:none}
+.cart-link__count{display:inline-flex;min-width:1.35rem;height:1.35rem;align-items:center;justify-content:center;border-radius:50%;background:var(--brand-yellow);color:var(--brand-primary);font-size:.75rem;line-height:1}
 .menu-toggle__icon{display:grid;gap:.3rem;width:1.25rem}.menu-toggle__icon span{display:block;height:2px;background:var(--brand-primary)}
 .primary-navigation{position:absolute;top:100%;right:0;left:0;display:none;border-bottom:1px solid var(--brand-primary);background:var(--brand-bg)}
 .primary-navigation.is-open{display:block}

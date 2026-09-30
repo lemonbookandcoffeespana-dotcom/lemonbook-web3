@@ -46,6 +46,11 @@ $site = lemon_site();
 			}
 			?>
 		</nav>
+		<?php if ( function_exists( 'wc_get_cart_url' ) && ! is_cart() && ! is_checkout() ) : $cart_count = WC()->cart ? WC()->cart->get_cart_contents_count() : 0; ?>
+			<a class="cart-link" href="<?php echo esc_url( wc_get_cart_url() ); ?>" aria-label="<?php echo esc_attr( $cart_count ? sprintf( /* translators: %d: number of items in the cart */ __( 'Carrito, %d productos', 'lemonbook' ), $cart_count ) : __( 'Carrito', 'lemonbook' ) ); ?>">
+				<?php esc_html_e( 'Carrito', 'lemonbook' ); ?><?php if ( $cart_count ) : ?> <span class="cart-link__count"><?php echo esc_html( (string) $cart_count ); ?></span><?php endif; ?>
+			</a>
+		<?php endif; ?>
 		<noscript><style>.menu-toggle{display:none}.primary-navigation{position:static;display:block}</style></noscript>
 	</div>
 </header>

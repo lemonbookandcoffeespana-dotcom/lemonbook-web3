@@ -290,6 +290,7 @@ function lemon_books( string $fair = '' ): array {
 		static function ( mixed $book ): array {
 			$book = lemon_normalize_image_record( $book );
 			$book['fair'] = isset( $book['fair'] ) && is_string( $book['fair'] ) ? $book['fair'] : '';
+			$book['category'] = isset( $book['category'] ) && is_string( $book['category'] ) ? trim( $book['category'] ) : '';
 			return $book;
 		},
 		$books
