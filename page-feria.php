@@ -37,9 +37,12 @@ get_header();
 	</header>
 
 	<?php if ( $fair['description_html'] ) : ?>
-	<section class="section" id="sobre" aria-labelledby="fair-about-title"><div class="shell fair-about">
-		<div><p class="kicker"><?php esc_html_e( 'El encuentro', 'lemonbook' ); ?></p><h2 id="fair-about-title"><?php esc_html_e( 'Sobre el encuentro', 'lemonbook' ); ?></h2></div>
-		<div class="fair-about__text"><?php echo wp_kses( $fair['description_html'], lemon_event_allowed_html(), array( 'https' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Filtered with the event allowlist and HTTPS-only links. ?></div>
+	<section class="section" id="sobre" aria-labelledby="fair-about-title"><div class="shell">
+		<div class="fair-intro__card">
+			<p class="kicker"><?php esc_html_e( 'El encuentro', 'lemonbook' ); ?></p>
+			<h2 id="fair-about-title" class="screen-reader-text"><?php esc_html_e( 'Sobre el encuentro', 'lemonbook' ); ?></h2>
+			<?php echo wp_kses( $fair['description_html'], lemon_event_allowed_html(), array( 'https' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Filtered with the event allowlist and HTTPS-only links. ?>
+		</div>
 	</div></section>
 	<?php endif; ?>
 
@@ -109,14 +112,25 @@ get_header();
 		</div>
 	</div></section>
 
-	<section class="section" id="como-llegar" aria-labelledby="fair-visit-title"><div class="shell location-grid">
-		<div>
-			<p class="kicker"><?php esc_html_e( 'Cómo llegar', 'lemonbook' ); ?></p>
-			<h2 id="fair-visit-title"><?php esc_html_e( 'Te esperamos', 'lemonbook' ); ?></h2>
-			<?php if ( $fair['venue'] ) : ?><p><?php echo esc_html( $fair['venue'] ); ?></p><?php elseif ( $site['address'] || $site['city'] ) : ?><p><?php echo esc_html( implode( ', ', array_filter( array( $site['address'], trim( $site['postal_code'] . ' ' . $site['city'] ) ) ) ) ); ?></p><?php endif; ?>
-			<div class="button-row">
-				<?php $map_url = $fair['venue_url'] ?: $site['maps_url']; if ( $map_url ) : ?><a class="button" href="<?php echo esc_url( $map_url ); ?>" rel="noopener noreferrer"><?php esc_html_e( 'Cómo llegar', 'lemonbook' ); ?></a><?php endif; ?>
-				<?php if ( $site['whatsapp_url'] ) : ?><a class="button button--ghost" href="<?php echo esc_url( $site['whatsapp_url'] ); ?>" rel="noopener noreferrer"><?php esc_html_e( 'WhatsApp', 'lemonbook' ); ?></a><?php endif; ?>
+	<?php
+	$map_address = $fair['venue'] ?: (string) ( $site['address'] ?? '' );
+	$map_url     = $fair['venue_url'] ?: (string) ( $site['maps_url'] ?? '' );
+	?>
+	<section class="section" id="como-llegar" aria-labelledby="fair-visit-title"><div class="shell">
+		<header class="section-header"><p class="kicker"><?php esc_html_e( 'Información práctica', 'lemonbook' ); ?></p><h2 id="fair-visit-title"><?php esc_html_e( 'Te esperamos', 'lemonbook' ); ?></h2></header>
+		<div class="fair-practical__grid">
+			<?php if ( $map_address ) : ?>
+				<div class="fair-practical__map">
+					<iframe src="<?php echo esc_url( 'https://maps.google.com/maps?q=' . rawurlencode( $map_address ) . '&t=m&z=16&output=embed' ); ?>" title="<?php echo esc_attr( sprintf( /* translators: %s: venue address */ __( 'Mapa de %s', 'lemonbook' ), $map_address ) ); ?>" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+					<?php if ( $map_url ) : ?><a class="button button--ghost" href="<?php echo esc_url( $map_url ); ?>" rel="noopener noreferrer"><?php esc_html_e( 'Cómo llegar', 'lemonbook' ); ?></a><?php endif; ?>
+				</div>
+			<?php endif; ?>
+			<div class="fair-practical__side">
+				<div class="fair-practical__block">
+					<h3><?php esc_html_e( 'Lugar', 'lemonbook' ); ?></h3>
+					<?php if ( $map_address ) : ?><p><?php echo esc_html( $map_address ); ?></p><?php endif; ?>
+					<?php if ( $site['whatsapp_url'] ) : ?><p><a href="<?php echo esc_url( $site['whatsapp_url'] ); ?>" rel="noopener noreferrer"><?php esc_html_e( 'WhatsApp', 'lemonbook' ); ?></a></p><?php endif; ?>
+				</div>
 			</div>
 		</div>
 	</div></section>

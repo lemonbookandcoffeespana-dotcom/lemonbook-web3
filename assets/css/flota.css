@@ -1,61 +1,7 @@
-/* II Feria del Libro y Mercadillo Artesanal (La Flota): sin fondo crema/amarillo, más dinámica que un bloque lineal. */
-.flota{background:#fff}
-.flota .section{padding-block:clamp(3rem,7vw,5.5rem)}
-.flota .button--accent{border-color:var(--brand-tertiary);background:var(--brand-tertiary);color:var(--brand-bg)}
-
-.flota-hero{padding:clamp(3.5rem,9vw,6.5rem) 0;background:var(--brand-primary);color:var(--brand-bg)}
-.flota-hero .eyebrow{color:var(--brand-accent)}
-.flota-hero .eyebrow::before{background:var(--brand-accent)}
-.flota-hero h1{max-width:20ch;margin-bottom:1rem}
-.flota-hero__tagline{max-width:34rem;margin-bottom:0;font-size:clamp(1.1rem,2.5vw,1.4rem)}
-.flota-hero .button-row{margin-top:2rem}
-.flota-hero .button--ghost{border-color:var(--brand-bg);color:var(--brand-bg)}
-
-.flota-intro__card{max-width:42rem;margin-inline:auto;border:1px solid var(--brand-olive);border-left-width:.4rem;border-left-color:var(--brand-tertiary);padding:clamp(1.5rem,4vw,2.5rem);text-align:center}
-.flota-intro__card .kicker{color:var(--brand-tertiary)}
-.flota-intro__card p:last-child{margin-bottom:0;font-size:1.1rem}
-
-.flota-feature-card{border:1px solid var(--brand-olive);border-top-width:.4rem;padding:clamp(1.5rem,4vw,2rem)}
-.flota-feature-card--0{border-top-color:var(--brand-tertiary)}
-.flota-feature-card--1{border-top-color:var(--brand-accent)}
-.flota-feature-card--2{border-top-color:var(--brand-olive)}
-.flota-feature-card__number{display:block;margin-bottom:.75rem;color:var(--brand-olive);font-family:var(--font-display);font-size:1.6rem;font-weight:700}
-.flota-feature-card h3{margin-bottom:.5rem;font-size:1.4rem}
-.flota-feature-card p{margin-bottom:0}
-
-.flota-shifts{display:grid;gap:1.5rem}
-.flota-shift{border:1px solid var(--brand-olive);padding:clamp(1.25rem,3.5vw,2rem)}
-.flota-shift h3{margin-bottom:1rem;font-size:1.4rem}
-.flota-shift__hours{margin-left:.5rem;color:var(--brand-tertiary);font-family:var(--font-body);font-size:.85rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
-.flota-author-list{display:grid;gap:.75rem;margin:0;padding:0;list-style:none}
-.flota-author-list li{display:flex;flex-direction:column;gap:.15rem;border-top:1px solid var(--brand-olive);padding-top:.6rem}
-.flota-author-list li:first-child{border-top:0;padding-top:0}
-.flota-author-list span{font-size:.92rem}
-
-.flota-program__day{border-left:.25rem solid var(--brand-accent);padding-left:1.25rem}
-.flota-program__day h3{margin-bottom:1rem;font-size:1.3rem}
-.flota-program__list{display:grid;gap:.6rem;margin:0;padding:0;list-style:none}
-.flota-program__list li{display:flex;gap:.75rem;align-items:baseline}
-.flota-program__time{flex:0 0 auto;font-family:var(--font-display);font-weight:700;color:var(--brand-accent)}
-
-.flota-practical__grid{display:grid;gap:2rem}
-.flota-practical__map{display:grid;gap:1rem;align-content:start}
-.flota-practical__map iframe{width:100%;aspect-ratio:4/3;border:1px solid var(--brand-olive)}
-.flota-practical__side{display:grid;gap:1.5rem;align-content:start}
-.flota-practical__block{border:1px solid var(--brand-olive);padding:1.25rem}
-.flota-practical__block h3{margin-bottom:.75rem;font-size:1.15rem}
-.flota-practical__block p{margin-bottom:.4rem}
-.flota-practical__block p:last-child{margin-bottom:0}
-.flota-practical__block img{width:100%;height:auto;border:1px solid var(--brand-olive)}
-
-.flota-cta__grid{display:grid;gap:1.5rem;align-items:center}
-.flota-cta h2{margin-bottom:.5rem}
-.flota-cta p{margin-bottom:0}
-
-.flota-closing{text-align:center}
-.flota-closing__lead{margin-bottom:1rem;font-family:var(--font-display);font-size:1.6rem;font-weight:700}
-.flota-closing p{max-width:40rem;margin-inline:auto}
-.flota-closing__credit{margin-top:1.5rem;color:var(--brand-olive);font-size:.9rem}
-
-@media (min-width:38rem){.flota-author-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}.flota-author-list li{border-top:0;border-left:1px solid var(--brand-olive);padding:0 0 0 .9rem}.flota-author-list li:first-child{border-left:0;padding-left:0}}
-@media (min-width:48rem){.flota-practical__grid{grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr)}.flota-cta__grid{grid-template-columns:minmax(0,1fr) auto}}
+/* II Feria del Libro y Mercadillo Artesanal (La Flota): misma base que .fair-* (ver main.css),
+   solo cambia el color. Petición expresa de Víctor: sin fondo crema ni amarillo en esta página. */
+.flota-page{background:#fff}
+.flota-page .button--accent{border-color:var(--brand-tertiary);background:var(--brand-tertiary);color:var(--brand-bg)}
+.flota-page .fair-hero .eyebrow{color:var(--brand-accent)}
+.flota-page .fair-hero .eyebrow::before{background:var(--brand-accent)}
+.flota-page a:focus-visible{outline-color:var(--brand-accent)}

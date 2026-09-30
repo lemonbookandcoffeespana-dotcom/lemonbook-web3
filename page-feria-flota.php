@@ -6,6 +6,11 @@
  * Vistalegre-La Flota (Lemon solo gestiona la venta de libros). Evento externo y puntual, no
  * pertenece a gestion: por eso el contenido va aquí en vez de salir de lemon_fair().
  *
+ * Reutiliza la misma base visual que la landing de feria de gestion (clases .fair-*, ver
+ * page-feria.php): un solo hero, introducción en tarjeta, programa agrupado en bloques,
+ * información práctica unida. assets/css/flota.css solo cambia los colores propios de esta
+ * página (sin fondo crema ni amarillo, pedido expreso para esta página en concreto).
+ *
  * @package LemonBook
  */
 
@@ -104,12 +109,12 @@ $program = array(
 
 get_header();
 ?>
-<main id="main-content" class="flota">
-	<header class="flota-hero">
+<main id="main-content" class="flota-page">
+	<header class="fair-hero">
 		<div class="shell">
 			<p class="eyebrow"><?php esc_html_e( '17 y 18 de abril · Calle Salón, La Flota', 'lemonbook' ); ?></p>
 			<h1><?php esc_html_e( 'II Feria del Libro y Mercadillo Artesanal', 'lemonbook' ); ?></h1>
-			<p class="flota-hero__tagline"><?php esc_html_e( 'Mil historias te esperan en el barrio.', 'lemonbook' ); ?></p>
+			<p class="fair-hero__tagline"><?php esc_html_e( 'Mil historias te esperan en el barrio.', 'lemonbook' ); ?></p>
 			<div class="button-row">
 				<a class="button button--accent" href="#autores"><?php esc_html_e( 'Ver autores y horarios', 'lemonbook' ); ?></a>
 				<a class="button button--ghost" href="<?php echo esc_url( $normativa_url ); ?>"><?php esc_html_e( 'Descargar normativa', 'lemonbook' ); ?></a>
@@ -117,9 +122,9 @@ get_header();
 		</div>
 	</header>
 
-	<section class="section flota-intro">
+	<section class="section" id="sobre">
 		<div class="shell">
-			<div class="flota-intro__card">
+			<div class="fair-intro__card">
 				<p class="kicker"><?php esc_html_e( 'Organizada por la Junta Municipal Vistalegre-La Flota', 'lemonbook' ); ?></p>
 				<p><?php esc_html_e( 'La II Feria del Libro y Mercadillo Artesanal regresa a la Calle Salón (C/ Juan García Abellán) los días 17 y 18 de abril. Esta edición fusiona la mejor literatura regional con la creatividad de nuestros artesanos en un ambiente primaveral único.', 'lemonbook' ); ?></p>
 			</div>
@@ -129,10 +134,10 @@ get_header();
 	<section class="section section--line" aria-labelledby="flota-features-title">
 		<div class="shell">
 			<header class="section-header"><p class="kicker"><?php esc_html_e( 'La feria', 'lemonbook' ); ?></p><h2 id="flota-features-title"><?php esc_html_e( '¿Qué vas a encontrar?', 'lemonbook' ); ?></h2></header>
-			<div class="grid grid--three flota-features">
+			<div class="grid grid--three">
 				<?php foreach ( $features as $index => $feature ) : ?>
-					<article class="flota-feature-card flota-feature-card--<?php echo esc_attr( $index % 3 ); ?>">
-						<span class="flota-feature-card__number"><?php echo esc_html( sprintf( '%02d', $index + 1 ) ); ?></span>
+					<article class="fair-feature-card fair-feature-card--<?php echo esc_attr( $index % 3 ); ?>">
+						<span class="fair-feature-card__number"><?php echo esc_html( sprintf( '%02d', $index + 1 ) ); ?></span>
 						<h3><?php echo esc_html( $feature['title'] ); ?></h3>
 						<p><?php echo esc_html( $feature['text'] ); ?></p>
 					</article>
@@ -141,14 +146,14 @@ get_header();
 		</div>
 	</section>
 
-	<section class="section flota-authors" id="autores" aria-labelledby="flota-authors-title">
+	<section class="section" id="autores" aria-labelledby="flota-authors-title">
 		<div class="shell">
 			<header class="section-header"><p class="kicker"><?php esc_html_e( 'Programación', 'lemonbook' ); ?></p><h2 id="flota-authors-title"><?php esc_html_e( 'Autores que participan', 'lemonbook' ); ?></h2></header>
-			<div class="flota-shifts">
+			<div class="fair-shifts">
 				<?php foreach ( $shifts as $shift ) : ?>
-					<article class="flota-shift">
-						<h3><?php echo esc_html( $shift['day'] ); ?> <span class="flota-shift__hours"><?php echo esc_html( $shift['hours'] ); ?></span></h3>
-						<ul class="flota-author-list">
+					<article class="fair-shift">
+						<h3><?php echo esc_html( $shift['day'] ); ?> <span class="fair-shift__hours"><?php echo esc_html( $shift['hours'] ); ?></span></h3>
+						<ul class="fair-author-list">
 							<?php foreach ( $shift['authors'] as $author ) : ?>
 								<li><strong><?php echo esc_html( $author[0] ); ?></strong><span><?php echo esc_html( $author[1] ); ?></span></li>
 							<?php endforeach; ?>
@@ -162,13 +167,13 @@ get_header();
 	<section class="section section--dark" aria-labelledby="flota-program-title">
 		<div class="shell">
 			<header class="section-header"><p class="kicker"><?php esc_html_e( 'Día a día', 'lemonbook' ); ?></p><h2 id="flota-program-title"><?php esc_html_e( 'Programación de actividades', 'lemonbook' ); ?></h2></header>
-			<div class="grid grid--three flota-program">
+			<div class="grid grid--three">
 				<?php foreach ( $program as $day ) : ?>
-					<div class="flota-program__day">
+					<div class="fair-program__day">
 						<h3><?php echo esc_html( $day['day'] ); ?></h3>
-						<ul class="flota-program__list">
+						<ul class="fair-program__list">
 							<?php foreach ( $day['items'] as $item ) : ?>
-								<li><span class="flota-program__time"><?php echo esc_html( $item[0] ); ?></span><span><?php echo esc_html( $item[1] ); ?></span></li>
+								<li><span class="fair-program__time"><?php echo esc_html( $item[0] ); ?></span><span><?php echo esc_html( $item[1] ); ?></span></li>
 							<?php endforeach; ?>
 						</ul>
 					</div>
@@ -177,20 +182,20 @@ get_header();
 		</div>
 	</section>
 
-	<section class="section flota-practical" aria-labelledby="flota-practical-title">
+	<section class="section" aria-labelledby="flota-practical-title">
 		<div class="shell">
 			<header class="section-header"><p class="kicker"><?php esc_html_e( 'Información práctica', 'lemonbook' ); ?></p><h2 id="flota-practical-title"><?php esc_html_e( 'Ubicación, mapa y contacto', 'lemonbook' ); ?></h2></header>
-			<div class="flota-practical__grid">
-				<div class="flota-practical__map">
+			<div class="fair-practical__grid">
+				<div class="fair-practical__map">
 					<iframe src="https://maps.google.com/maps?q=Calle%20Sal%C3%B3n%2C%20La%20Flota%2C%20Murcia&amp;t=m&amp;z=16&amp;output=embed" title="<?php esc_attr_e( 'Mapa de la Calle Salón, La Flota', 'lemonbook' ); ?>" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 					<a class="button button--ghost" href="<?php echo esc_url( $maps_url ); ?>" rel="noopener noreferrer"><?php esc_html_e( 'Cómo llegar', 'lemonbook' ); ?></a>
 				</div>
-				<div class="flota-practical__side">
-					<div class="flota-practical__block">
+				<div class="fair-practical__side">
+					<div class="fair-practical__block">
 						<h3><?php esc_html_e( 'Mapa de ocupación', 'lemonbook' ); ?></h3>
 						<a href="<?php echo esc_url( $mapa_ocupacion ); ?>" target="_blank" rel="noopener noreferrer"><img src="<?php echo esc_url( $mapa_ocupacion ); ?>" alt="<?php esc_attr_e( 'Mapa de ocupación de la feria', 'lemonbook' ); ?>" loading="lazy" decoding="async"></a>
 					</div>
-					<div class="flota-practical__block">
+					<div class="fair-practical__block">
 						<h3><?php esc_html_e( 'Contacto', 'lemonbook' ); ?></h3>
 						<p><a href="https://wa.me/34668514154"><?php esc_html_e( 'WhatsApp: +34 668 51 41 54', 'lemonbook' ); ?></a></p>
 						<p><a href="mailto:ferialaflota@lemonbookandcoffe.es">ferialaflota@lemonbookandcoffe.es</a></p>
@@ -201,25 +206,23 @@ get_header();
 		</div>
 	</section>
 
-	<section class="section section--tertiary flota-cta" aria-labelledby="flota-cta-title">
-		<div class="shell flota-cta__grid">
-			<div>
-				<p class="kicker"><?php esc_html_e( '¿Escribes o creas?', 'lemonbook' ); ?></p>
-				<h2 id="flota-cta-title"><?php esc_html_e( 'Únete a la feria', 'lemonbook' ); ?></h2>
-				<p><?php esc_html_e( 'Descárgate el reglamento y rellena el formulario de participación.', 'lemonbook' ); ?></p>
-			</div>
-			<div class="button-row">
-				<a class="button button--accent" href="<?php echo esc_url( $normativa_url ); ?>"><?php esc_html_e( 'Descargar normativa', 'lemonbook' ); ?></a>
-				<a class="button button--ghost" href="mailto:ferialaflota@lemonbookandcoffe.es"><?php esc_html_e( 'Escríbenos para participar', 'lemonbook' ); ?></a>
-			</div>
+	<section class="section section--tertiary" aria-labelledby="flota-cta-title"><div class="shell fair-authors">
+		<div>
+			<p class="kicker"><?php esc_html_e( '¿Escribes o creas?', 'lemonbook' ); ?></p>
+			<h2 id="flota-cta-title"><?php esc_html_e( 'Únete a la feria', 'lemonbook' ); ?></h2>
+			<p><?php esc_html_e( 'Descárgate el reglamento y rellena el formulario de participación.', 'lemonbook' ); ?></p>
 		</div>
-	</section>
+		<div class="button-row">
+			<a class="button button--accent" href="<?php echo esc_url( $normativa_url ); ?>"><?php esc_html_e( 'Descargar normativa', 'lemonbook' ); ?></a>
+			<a class="button button--ghost" href="mailto:ferialaflota@lemonbookandcoffe.es"><?php esc_html_e( 'Escríbenos para participar', 'lemonbook' ); ?></a>
+		</div>
+	</div></section>
 
-	<section class="section flota-closing">
+	<section class="section fair-closing">
 		<div class="shell">
-			<p class="flota-closing__lead"><?php esc_html_e( '¡Te esperamos con los libros abiertos!', 'lemonbook' ); ?></p>
+			<p class="fair-closing__lead"><?php esc_html_e( '¡Te esperamos con los libros abiertos!', 'lemonbook' ); ?></p>
 			<p><?php esc_html_e( 'Gracias por tu interés en formar parte de la II Feria del Libro y Mercadillo Artesanal de La Flota. Nos vemos los días 17 y 18 de abril en la Calle Salón para compartir mil historias, descubrir tesoros artesanos y celebrar juntos el talento de nuestra Región.', 'lemonbook' ); ?></p>
-			<p class="flota-closing__credit"><?php esc_html_e( 'Organizado por la Junta Municipal Vistalegre-La Flota.', 'lemonbook' ); ?></p>
+			<p class="fair-closing__credit"><?php esc_html_e( 'Organizado por la Junta Municipal Vistalegre-La Flota.', 'lemonbook' ); ?></p>
 		</div>
 	</section>
 </main>
