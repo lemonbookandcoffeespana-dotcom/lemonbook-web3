@@ -38,6 +38,47 @@ function lemon_event_price_text( array $event ): string {
 }
 
 /**
+ * Image to show for an event card/hero: respeta el principal elegido en gestion
+ * (`image`/`image_large`) en vez de asumir siempre la variante apaisada de `images`, que gestion
+ * expone igual tanto si coincide con el principal como si no (bug visto en MUGABANA - ÍNTIMO:
+ * se eligió "Vertical" como principal pero la tarjeta mostraba la apaisada igualmente, porque
+ * `images.wide` sigue estando ahí aunque no sea la elegida).
+ *
+ * Solo se trata como recorte apaisado ya preparado (sin mostrarla "natural"/sin recortar) cuando
+ * el principal elegido ES de verdad la variante `wide` (misma URL); si se eligió cuadrada,
+ * vertical o cualquier otra, se respeta tal cual.
+ *
+ * @param array<string, mixed> $event        Event data (ya normalizado por lemon_normalize_event()).
+ * @param bool                 $prefer_large Usar la variante grande como `src` principal (ficha de
+ *                                           evento); por defecto usa la miniatura, como en las tarjetas.
+ * @return array{src: string, srcset: string, natural: bool}
+ */
+function lemon_event_display_image( array $event, bool $prefer_large = false ): array {
+	$image       = isset( $event['image'] ) && is_string( $event['image'] ) ? $event['image'] : '';
+	$image_large = isset( $event['image_large'] ) && is_string( $event['image_large'] ) ? $event['image_large'] : '';
+	$images      = isset( $event['images'] ) && is_array( $event['images'] ) ? $event['images'] : array();
+	$wide        = isset( $images['wide'] ) && is_array( $images['wide'] ) ? $images['wide'] : array();
+	$wide_url    = isset( $wide['url'] ) && is_string( $wide['url'] ) ? $wide['url'] : '';
+	$wide_thumb  = isset( $wide['thumb'] ) && is_string( $wide['thumb'] ) ? $wide['thumb'] : '';
+
+	$is_wide_principal = '' !== $wide_url && ( $wide_url === $image_large || ( '' !== $wide_thumb && $wide_thumb === $image ) );
+
+	if ( $is_wide_principal ) {
+		return array(
+			'src'     => $prefer_large ? ( $wide_url ?: $wide_thumb ) : ( $wide_thumb ?: $image ),
+			'srcset'  => implode( ', ', array_filter( array( $wide_thumb ? esc_url_raw( $wide_thumb ) . ' 400w' : '', $wide_url ? esc_url_raw( $wide_url ) . ' 1200w' : '' ) ) ),
+			'natural' => false,
+		);
+	}
+
+	return array(
+		'src'     => $prefer_large ? ( $image_large ?: $image ) : ( $image ?: $image_large ),
+		'srcset'  => implode( ', ', array_filter( array( $image ? esc_url_raw( $image ) . ' 400w' : '', $image_large ? esc_url_raw( $image_large ) . ' 1200w' : '' ) ) ),
+		'natural' => true,
+	);
+}
+
+/**
  * Format an API date in Spanish/WordPress locale and Europe/Madrid time.
  */
 function lemon_date( mixed $value, string $format = 'j \d\e F, H:i' ): string {

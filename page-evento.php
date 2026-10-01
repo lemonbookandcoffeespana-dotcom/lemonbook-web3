@@ -14,17 +14,11 @@ get_header();
 		$status = (string) $selected['status'];
 		$description = (string) $selected['description'];
 		$description_html = (string) $selected['description_html'];
-		$images = is_array( $selected['images'] ) ? $selected['images'] : array();
-		$wide = isset( $images['wide'] ) && is_array( $images['wide'] ) ? $images['wide'] : array();
-		$wide_thumb = isset( $wide['thumb'] ) ? (string) $wide['thumb'] : '';
-		$wide_url = isset( $wide['url'] ) ? (string) $wide['url'] : '';
-		$event_src = $wide_url ?: (string) $selected['image_large'];
-			// Sin variante apaisada el cartel se muestra entero (puede ser vertical), no recortado.
-			$natural = ! $wide_url;
+		$display_image = lemon_event_display_image( $selected, true );
+		$event_src = $display_image['src'];
+		$natural = $display_image['natural'];
+		$event_srcset = $display_image['srcset'];
 		$image_alt = $selected['image_alt'] ? (string) $selected['image_alt'] : $name;
-		$event_srcset = $wide_url
-			? implode( ', ', array_filter( array( $wide_thumb ? esc_url_raw( $wide_thumb ) . ' 400w' : '', esc_url_raw( $wide_url ) . ' 1200w' ) ) )
-			: implode( ', ', array_filter( array( $selected['image'] ? esc_url_raw( $selected['image'] ) . ' 400w' : '', $selected['image_large'] ? esc_url_raw( $selected['image_large'] ) . ' 1200w' : '' ) ) );
 		$price_changes_at = $selected['price_changes_at'] ? lemon_date( $selected['price_changes_at'] ) : '';
 		$sale_opens_at = $selected['sale_opens_at'] ? lemon_date( $selected['sale_opens_at'] ) : '';
 		$menu_groups = array();
