@@ -5,6 +5,7 @@
 .section-header{display:grid;grid-template-columns:minmax(0,1fr);gap:1rem;margin-bottom:clamp(2rem,5vw,4rem)}.section-header>*{min-width:0}
 .section-header h1,.section-header h2{margin-bottom:0}
 .section-header p{max-width:42rem;margin-bottom:0;font-size:1.1rem}
+.front-authors-link{margin-top:.5rem;font-size:.95rem}
 .section-header--split{align-items:end}
 .kicker{margin-bottom:.5rem;color:var(--brand-tertiary);font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
 .section--dark .kicker,.section--tertiary .kicker{color:var(--brand-yellow)}

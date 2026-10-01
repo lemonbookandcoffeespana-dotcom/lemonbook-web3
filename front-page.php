@@ -94,7 +94,7 @@ get_header();
 
 	<section class="section section--line" aria-labelledby="books-title">
 		<div class="shell">
-			<header class="section-header section-header--split"><div><p class="kicker"><?php esc_html_e( 'Librería', 'lemonbook' ); ?></p><h2 id="books-title"><?php esc_html_e( 'Libros con raíces cercanas', 'lemonbook' ); ?></h2></div><div><p><?php esc_html_e( 'Descubre nuestra selección y el talento de autoras y autores murcianos.', 'lemonbook' ); ?></p><a class="text-link" href="<?php echo esc_url( lemon_page_url( 'libreria' ) ); ?>"><?php esc_html_e( 'Explorar la librería', 'lemonbook' ); ?></a></div></header>
+			<header class="section-header section-header--split"><div><p class="kicker"><?php esc_html_e( 'Librería', 'lemonbook' ); ?></p><h2 id="books-title"><?php esc_html_e( 'Libros con raíces cercanas', 'lemonbook' ); ?></h2></div><div><p><?php esc_html_e( 'Descubre nuestra selección y el talento de autoras y autores murcianos.', 'lemonbook' ); ?></p><a class="text-link" href="<?php echo esc_url( lemon_page_url( 'libreria' ) ); ?>"><?php esc_html_e( 'Explorar la librería', 'lemonbook' ); ?></a><p class="front-authors-link"><a class="text-link" href="https://gestion.lemonbookandcoffe.es/autor.php"><?php esc_html_e( '¿Eres autor o autora con nosotros? Accede a tu portal', 'lemonbook' ); ?></a></p></div></header>
 			<?php if ( $books['books'] ) : ?><div class="grid book-grid"><?php foreach ( array_slice( $books['books'], 0, 4 ) as $book ) { get_template_part( 'template-parts/book-card', null, $book ); } ?></div><?php else : ?><p class="empty-state"><?php esc_html_e( 'La selección de libros estará disponible muy pronto.', 'lemonbook' ); ?></p><?php endif; ?>
 		</div>
 	</section>

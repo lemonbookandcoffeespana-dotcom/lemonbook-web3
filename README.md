@@ -144,7 +144,8 @@ Autores, turnos y programación están escritos a mano en el propio archivo (eve
 
 - `page-libreria.php`: catálogo general (`lemon_books()`, sin los libros de una feria activa) con buscador de texto y filtro «Solo autoría murciana», ambos en `assets/js/book-filter.js` (solo se carga en esta página), sin volver a pedir datos a gestion. Cada tarjeta lleva `data-book-name`/`data-book-author` (vía `lemon_search_key()`: minúsculas y sin acentos) y `data-book-murciano` para filtrar en el navegador.
 - `template-parts/book-card.php`: portada con `object-fit: contain` sobre fondo crema (integra el lienzo blanco de origen) y, si el libro es de autoría murciana, la insignia se superpone sobre la propia portada en vez de ir en el cuerpo de la tarjeta.
-- Aún no existe `category` en el contrato de `books()`; en cuanto gestion lo exponga (mismo patrón que las categorías de la carta), se añade como filtro más.
+- `category` ya está en el contrato de `books()`. El filtro por categoría (`<select data-book-category>`) solo se renderiza si al menos un libro del catálogo general tiene una asignada (ningún libro la tenía al añadir este filtro); mientras tanto no aparece, para no mostrar una lista vacía sin sentido.
+- `front-page.php`, sección «Libros con raíces cercanas»: enlace estático al **Portal del autor** (`https://gestion.lemonbookandcoffe.es/autor.php`), para autoras y autores ya inscritos en una feria anterior. Sin datos de por medio: la propia página de gestion resuelve el enlace personal o, si no hay uno, ofrece pedirlo por correo.
 
 ## Feria (II Encuentro Literario entre Libros y Vecinos de La Flota)
 
