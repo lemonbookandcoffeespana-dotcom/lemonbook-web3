@@ -94,10 +94,3 @@ function lemonbook_body_classes( array $classes ): array {
 	return $classes;
 }
 add_filter( 'body_class', 'lemonbook_body_classes' );
-
-// TEMPORAL (diagnóstico de la feria): se quita en cuanto se resuelva.
-add_action( 'wp_footer', static function (): void {
-	if ( isset( $_GET['lbdebug'] ) && ! empty( $GLOBALS['lemon_data_debug'] ) ) { // phpcs:ignore
-		echo '<!-- ' . esc_html( implode( ' | ', $GLOBALS['lemon_data_debug'] ) ) . ' -->';
-	}
-}, 99 );

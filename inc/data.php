@@ -42,7 +42,6 @@ function lemon_data_resource( string $resource, array $query = array() ): array 
 		$cached    = get_transient( $cache_key );
 
 		if ( is_array( $cached ) ) {
-			$GLOBALS['lemon_data_debug'][] = $resource . ( '' !== $fair_slug ? ':' . $fair_slug : '' ) . ' cache-hit ' . wp_json_encode( array_keys( $cached ) ) . ' ' . substr( wp_json_encode( $cached['data'] ?? null ), 0, 60 );
 			$envelope = $cached;
 		} else {
 			$request_args = array( 'resource' => $resource );
@@ -56,8 +55,10 @@ function lemon_data_resource( string $resource, array $query = array() ): array 
 				$request_args['books' === $resource ? 'fair' : 'slug'] = $fair_slug;
 			}
 			$url = add_query_arg( $request_args, LEMONBOOK_API_BASE );
-			$response = wp_remote_get( $url, array( 'timeout' => 10, 'redirection' => 2 ) );
-			$GLOBALS['lemon_data_debug'][] = $resource . ( '' !== $fair_slug ? ':' . $fair_slug : '' ) . ' fetch ' . ( is_wp_error( $response ) ? 'ERROR ' . $response->get_error_message() : 'HTTP ' . wp_remote_retrieve_response_code( $response ) . ' ' . strlen( wp_remote_retrieve_body( $response ) ) . 'b' );
+			// Con copia buena guardada se espera poco (si falla, se sirve esa copia); sin ella se espera más, porque
+			// gestion en hosting compartido a veces tarda >10 s y, si no, el recurso (p. ej. la feria) no llegaría a pintarse nunca.
+			$lkg      = get_transient( $cache_key . '_lkg' );
+			$response = wp_remote_get( $url, array( 'timeout' => is_array( $lkg ) ? 6 : 20, 'redirection' => 2 ) );
 			if ( ! is_wp_error( $response ) && 200 === wp_remote_retrieve_response_code( $response ) ) {
 				$decoded = json_decode( wp_remote_retrieve_body( $response ), true );
 				if ( is_array( $decoded ) && ! empty( $decoded['ok'] ) && isset( $decoded['data'] ) && is_array( $decoded['data'] ) ) {
@@ -70,10 +71,9 @@ function lemon_data_resource( string $resource, array $query = array() ): array 
 				}
 			}
 			if ( empty( $envelope ) ) {
-				// Si la API falla, se sirve la última copia buena (si la hay). El fallo se cachea 60 s para no repetir la petición en cada página.
-				$stale    = get_transient( $cache_key . '_lkg' );
-				$envelope = is_array( $stale ) ? $stale : array();
-				set_transient( $cache_key, $envelope ? $envelope : array( 'ok' => false, 'data' => array() ), MINUTE_IN_SECONDS );
+				// Si la API falla, se sirve la última copia buena (si la hay) 60 s; sin copia el fallo se cachea solo 20 s para reintentar enseguida.
+				$envelope = is_array( $lkg ) ? $lkg : array();
+				set_transient( $cache_key, $envelope ? $envelope : array( 'ok' => false, 'data' => array() ), $envelope ? MINUTE_IN_SECONDS : 20 );
 			}
 		}
 	}
