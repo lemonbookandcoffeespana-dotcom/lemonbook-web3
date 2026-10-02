@@ -337,11 +337,14 @@ function lemon_fair( string $slug = '' ): ?array {
 			'commission_percent' => 30,
 			'registration_open'  => false,
 			'registration_url'   => '',
+			'register_authors_url'  => '',
+			'register_activity_url' => '',
+			'register_market_url'   => '',
 			'days'               => array(),
 			'events'             => array(),
 		)
 	);
-	foreach ( array( 'slug', 'name', 'tagline', 'starts_on', 'ends_on', 'venue', 'venue_url', 'description_html', 'image_alt', 'registration_url' ) as $key ) {
+	foreach ( array( 'slug', 'name', 'tagline', 'starts_on', 'ends_on', 'venue', 'venue_url', 'description_html', 'image_alt', 'registration_url', 'register_authors_url', 'register_activity_url', 'register_market_url' ) as $key ) {
 		$fair[ $key ] = is_string( $fair[ $key ] ) ? $fair[ $key ] : '';
 	}
 	$fair['commission_percent'] = (float) $fair['commission_percent'];

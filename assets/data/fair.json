@@ -84,7 +84,10 @@
           "fair": "ii-encuentro-libros-vecinos-la-flota",
           "images": {}
         }
-      ]
+      ],
+      "register_authors_url": "https://gestion.lemonbookandcoffe.es/feria.php?f=ii-encuentro-libros-vecinos-la-flota&p=autores",
+      "register_activity_url": "https://gestion.lemonbookandcoffe.es/feria.php?f=ii-encuentro-libros-vecinos-la-flota&p=actividades",
+      "register_market_url": "https://gestion.lemonbookandcoffe.es/feria.php?f=ii-encuentro-libros-vecinos-la-flota&p=mercadillo"
     }
   },
   "generated_at": "2026-09-28T12:00:00+02:00"

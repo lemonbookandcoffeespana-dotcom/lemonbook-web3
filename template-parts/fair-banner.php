@@ -24,7 +24,7 @@ $poster_srcset = implode( ', ', array_filter( array( $fair['image'] ? esc_url_ra
 				<?php if ( $fair['venue'] ) : ?><p class="fair-banner__venue"><?php echo esc_html( $fair['venue'] ); ?></p><?php endif; ?>
 				<div class="button-row">
 					<a class="button button--accent" href="<?php echo esc_url( lemon_fair_url( $fair ) . '#programa' ); ?>"><?php esc_html_e( 'Ver programa y horarios', 'lemonbook' ); ?></a>
-					<?php if ( $fair['registration_open'] && $fair['registration_url'] ) : ?><a class="button button--ghost" href="<?php echo esc_url( $fair['registration_url'] ); ?>"><?php esc_html_e( 'Inscribe tu libro', 'lemonbook' ); ?></a><?php endif; ?>
+					<?php foreach ( lemon_fair_register_links( $fair ) as $link ) : ?><a class="button button--ghost" href="<?php echo esc_url( $link['url'] ); ?>"><?php echo esc_html( $link['label'] ); ?></a><?php endforeach; ?>
 				</div>
 			</div>
 		</div>

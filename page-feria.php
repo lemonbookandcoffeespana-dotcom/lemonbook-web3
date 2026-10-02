@@ -29,7 +29,7 @@ get_header();
 				<?php if ( $fair['venue'] ) : ?><p class="fair-hero__venue"><strong><?php esc_html_e( 'Lugar:', 'lemonbook' ); ?></strong> <?php echo esc_html( $fair['venue'] ); ?><?php if ( $fair['venue_url'] ) : ?> · <a href="<?php echo esc_url( $fair['venue_url'] ); ?>" rel="noopener noreferrer"><?php esc_html_e( 'Cómo llegar', 'lemonbook' ); ?></a><?php endif; ?></p><?php endif; ?>
 				<div class="button-row">
 					<a class="button button--accent" href="#programa"><?php esc_html_e( 'Ver el programa', 'lemonbook' ); ?></a>
-					<?php if ( $fair['registration_open'] && $fair['registration_url'] ) : ?><a class="button button--ghost" href="<?php echo esc_url( $fair['registration_url'] ); ?>"><?php esc_html_e( 'Inscribe tu libro', 'lemonbook' ); ?></a><?php endif; ?>
+					<?php foreach ( lemon_fair_register_links( $fair ) as $link ) : ?><a class="button button--ghost" href="<?php echo esc_url( $link['url'] ); ?>"><?php echo esc_html( $link['label'] ); ?></a><?php endforeach; ?>
 				</div>
 			</div>
 			<?php if ( $image_src ) : ?><figure class="fair-hero__media" data-image-fallback><img data-content-image src="<?php echo esc_url( $image_src ); ?>"<?php if ( $image_srcset ) : ?> srcset="<?php echo esc_attr( $image_srcset ); ?>" sizes="(max-width: 55.99rem) 60vw, 22rem"<?php endif; ?> width="800" height="1200" fetchpriority="high" decoding="async" alt="<?php echo esc_attr( $fair['image_alt'] ?: $fair['name'] ); ?>"><div class="image-placeholder image-fallback" role="img" aria-label="<?php esc_attr_e( 'Imagen no disponible', 'lemonbook' ); ?>"></div></figure><?php endif; ?>
@@ -101,10 +101,11 @@ get_header();
 			<p class="kicker"><?php esc_html_e( 'Para autoras y autores', 'lemonbook' ); ?></p>
 			<h2 id="fair-authors-title"><?php esc_html_e( '¿Quieres presentar tu libro?', 'lemonbook' ); ?></h2>
 			<p><?php echo esc_html( sprintf( /* translators: %s: commission percentage */ __( 'Elige tu día y tu franja de firma, cuéntanos tus obras y cuántos ejemplares nos dejas. Tus libros se venderán en Lemon Book & Coffee y aparecerán en la sección de libros del encuentro. El local cobra una comisión del %s %% sobre cada venta, que aceptas de forma expresa al inscribirte. Revisamos cada inscripción antes de publicarla.', 'lemonbook' ), $percent ) ); ?></p>
+			<?php if ( count( lemon_fair_register_links( $fair ) ) > 1 ) : ?><p><?php esc_html_e( '¿Traes una actividad (cuentacuentos, presentación, taller…) o quieres vender en el mercadillo? Usa el formulario que corresponda.', 'lemonbook' ); ?></p><?php endif; ?>
 		</div>
 		<div>
-			<?php if ( $fair['registration_open'] && $fair['registration_url'] ) : ?>
-				<a class="button button--accent" href="<?php echo esc_url( $fair['registration_url'] ); ?>"><?php esc_html_e( 'Inscribir mi libro', 'lemonbook' ); ?></a>
+			<?php $register_links = lemon_fair_register_links( $fair ); if ( $register_links ) : ?>
+				<div class="button-row"><?php foreach ( $register_links as $index => $link ) : ?><a class="button <?php echo esc_attr( 0 === $index ? 'button--accent' : 'button--ghost' ); ?>" href="<?php echo esc_url( $link['url'] ); ?>"><?php echo esc_html( $link['label'] ); ?></a><?php endforeach; ?></div>
 			<?php else : ?>
 				<p><strong><?php esc_html_e( 'Las inscripciones están cerradas.', 'lemonbook' ); ?></strong></p>
 				<a class="button button--accent" href="<?php echo esc_url( lemon_page_url( 'contacto' ) ); ?>"><?php esc_html_e( 'Escríbenos', 'lemonbook' ); ?></a>

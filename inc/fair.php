@@ -66,6 +66,25 @@ function lemon_percent( float $value ): string {
 }
 
 /**
+ * Botones de inscripción de la feria (autores, actividades, mercadillo), solo con la inscripción abierta.
+ * Cada tipo tiene su formulario en gestion; si falta la URL concreta de autores se usa la portada de la feria.
+ *
+ * @param array<string, mixed> $fair Fair data.
+ * @return array<int, array{key: string, label: string, url: string}>
+ */
+function lemon_fair_register_links( array $fair ): array {
+	if ( empty( $fair['registration_open'] ) ) {
+		return array();
+	}
+	$links = array(
+		array( 'key' => 'authors', 'label' => __( 'Inscribe tu libro', 'lemonbook' ), 'url' => $fair['register_authors_url'] ?: $fair['registration_url'] ),
+		array( 'key' => 'activity', 'label' => __( 'Propón una actividad especial', 'lemonbook' ), 'url' => $fair['register_activity_url'] ),
+		array( 'key' => 'market', 'label' => __( 'Participa en el mercadillo', 'lemonbook' ), 'url' => $fair['register_market_url'] ),
+	);
+	return array_values( array_filter( $links, static fn ( array $link ): bool => '' !== $link['url'] ) );
+}
+
+/**
  * Human date range: "16–18 de octubre" or "30 de octubre – 2 de noviembre".
  *
  * @param array<string, mixed> $fair Fair data.
