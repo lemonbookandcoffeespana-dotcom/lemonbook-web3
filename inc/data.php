@@ -42,6 +42,7 @@ function lemon_data_resource( string $resource, array $query = array() ): array 
 		$cached    = get_transient( $cache_key );
 
 		if ( is_array( $cached ) ) {
+			$GLOBALS['lemon_data_debug'][] = $resource . ( '' !== $fair_slug ? ':' . $fair_slug : '' ) . ' cache-hit ' . wp_json_encode( array_keys( $cached ) ) . ' ' . substr( wp_json_encode( $cached['data'] ?? null ), 0, 60 );
 			$envelope = $cached;
 		} else {
 			$request_args = array( 'resource' => $resource );
@@ -56,6 +57,7 @@ function lemon_data_resource( string $resource, array $query = array() ): array 
 			}
 			$url = add_query_arg( $request_args, LEMONBOOK_API_BASE );
 			$response = wp_remote_get( $url, array( 'timeout' => 10, 'redirection' => 2 ) );
+			$GLOBALS['lemon_data_debug'][] = $resource . ( '' !== $fair_slug ? ':' . $fair_slug : '' ) . ' fetch ' . ( is_wp_error( $response ) ? 'ERROR ' . $response->get_error_message() : 'HTTP ' . wp_remote_retrieve_response_code( $response ) . ' ' . strlen( wp_remote_retrieve_body( $response ) ) . 'b' );
 			if ( ! is_wp_error( $response ) && 200 === wp_remote_retrieve_response_code( $response ) ) {
 				$decoded = json_decode( wp_remote_retrieve_body( $response ), true );
 				if ( is_array( $decoded ) && ! empty( $decoded['ok'] ) && isset( $decoded['data'] ) && is_array( $decoded['data'] ) ) {
