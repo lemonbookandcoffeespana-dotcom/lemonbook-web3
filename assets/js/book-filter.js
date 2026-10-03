@@ -19,6 +19,7 @@
 
   const apply = () => {
     const query = search ? normalize(search.value) : '';
+    const queryDigits = query.replace(/[^0-9x]/gi, '');
     const onlyMurciano = murcianoOnly ? murcianoOnly.checked : false;
     const wantedCategory = category ? category.value : '';
     let visible = 0;
@@ -26,7 +27,8 @@
     cards.forEach((card) => {
       const matchesQuery = !query
         || (card.dataset.bookName || '').includes(query)
-        || (card.dataset.bookAuthor || '').includes(query);
+        || (card.dataset.bookAuthor || '').includes(query)
+        || (queryDigits.length >= 3 && (card.dataset.bookIsbn || '').replace(/[^0-9x]/gi, '').includes(queryDigits));
       const matchesMurciano = !onlyMurciano || card.dataset.bookMurciano === '1';
       const matchesCategory = !wantedCategory || card.dataset.bookCategory === wantedCategory;
       const show = matchesQuery && matchesMurciano && matchesCategory;

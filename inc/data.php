@@ -305,6 +305,7 @@ function lemon_books( string $fair = '' ): array {
 			$book = lemon_normalize_image_record( $book );
 			$book['fair'] = isset( $book['fair'] ) && is_string( $book['fair'] ) ? $book['fair'] : '';
 			$book['category'] = isset( $book['category'] ) && is_string( $book['category'] ) ? trim( $book['category'] ) : '';
+			$book['isbn'] = isset( $book['isbn'] ) && is_string( $book['isbn'] ) ? trim( $book['isbn'] ) : '';
 			$book['categories'] = isset( $book['categories'] ) && is_array( $book['categories'] )
 				? array_values( array_filter( array_map( static fn ( mixed $c ): string => is_string( $c ) ? trim( $c ) : '', $book['categories'] ) ) )
 				: array_values( array_filter( array( $book['category'] ) ) );

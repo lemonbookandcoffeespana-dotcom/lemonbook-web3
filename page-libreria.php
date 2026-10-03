@@ -36,8 +36,8 @@ get_header();
 		<?php if ( $catalog ) : ?>
 			<div class="book-filters" data-book-filters>
 				<div class="book-filters__search">
-					<label class="screen-reader-text" for="book-search"><?php esc_html_e( 'Buscar por título o autor', 'lemonbook' ); ?></label>
-					<input type="search" id="book-search" data-book-search placeholder="<?php esc_attr_e( 'Buscar por título o autor…', 'lemonbook' ); ?>">
+					<label class="screen-reader-text" for="book-search"><?php esc_html_e( 'Buscar por título, autor o ISBN', 'lemonbook' ); ?></label>
+					<input type="search" id="book-search" data-book-search placeholder="<?php esc_attr_e( 'Buscar por título, autor o ISBN…', 'lemonbook' ); ?>">
 				</div>
 				<?php if ( $categories ) : ?>
 					<div class="book-filters__category">
