@@ -50,6 +50,9 @@ function lemonbook_assets(): void {
 	if ( is_front_page() ) {
 		wp_enqueue_script( 'lemonbook-events-carousel', get_template_directory_uri() . '/assets/js/events-carousel.js', array(), $version, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 	}
+	if ( is_front_page() ) {
+		wp_enqueue_script( 'lemonbook-book-tabs', get_template_directory_uri() . '/assets/js/book-tabs.js', array(), $version, array( 'in_footer' => true, 'strategy' => 'defer' ) );
+	}
 	if ( is_page( 'libreria' ) ) {
 		wp_enqueue_script( 'lemonbook-book-filter', get_template_directory_uri() . '/assets/js/book-filter.js', array(), $version, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 	}

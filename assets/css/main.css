@@ -113,3 +113,12 @@
 @media (min-width:56rem){.fair-hero__grid{grid-template-columns:minmax(0,1fr) minmax(14rem,20rem)}}
 @media (hover:hover){.fair-banner .button--ghost:hover,.fair-hero .button--ghost:hover{background:var(--brand-bg);color:var(--brand-primary)}.fair-days-nav a:hover{background:var(--brand-primary);color:var(--brand-bg)}}
 .event-panel__media.is-natural,.event-carousel-card__media.is-natural,.event-hero-media.is-natural{aspect-ratio:auto}.event-panel__media.is-natural img,.event-carousel-card__media.is-natural img,.event-hero-media.is-natural img{height:auto;max-height:32rem;object-fit:contain}.event-carousel-card__media.is-natural img{max-height:24rem}.event-hero-media.is-natural{width:fit-content;max-width:100%;margin-inline:auto}.event-hero-media.is-natural img{width:auto;max-width:100%}.event-panel__media.is-natural.is-broken,.event-carousel-card__media.is-natural.is-broken,.event-hero-media.is-natural.is-broken{min-height:10rem}
+
+.book-tabs__list{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.5rem}
+.book-tabs__tab{border:1px solid var(--brand-primary);background:transparent;color:var(--brand-primary);padding:.6rem 1.1rem;font:inherit;font-weight:700;cursor:pointer}
+.book-tabs__tab:hover{background:rgba(27,61,46,.08)}
+.book-tabs__tab[aria-selected="true"]{background:var(--brand-primary);color:var(--brand-bg)}
+.book-tabs__tab:focus-visible{outline:3px solid var(--brand-accent);outline-offset:2px}
+.book-tabs__panel[hidden]{display:none}
+.book-tabs__more{margin-top:1.5rem}
+@media (max-width:47.99rem){.book-tabs__list{flex-wrap:nowrap;overflow-x:auto;padding-bottom:.25rem}.book-tabs__tab{flex:0 0 auto;white-space:nowrap}}
