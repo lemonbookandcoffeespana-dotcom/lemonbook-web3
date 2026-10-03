@@ -40,4 +40,7 @@
   if (search) search.addEventListener('input', apply);
   if (murcianoOnly) murcianoOnly.addEventListener('change', apply);
   if (category) category.addEventListener('change', apply);
+
+  // Aplica ya al cargar: la categoría puede venir preseleccionada desde una pestaña de la portada.
+  apply();
 })();

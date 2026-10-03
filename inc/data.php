@@ -114,6 +114,7 @@ function lemon_site(): array {
 		'hours'        => array(),
 		'hero_image'   => '',
 		'gallery'      => array(),
+		'home_book_categories' => array(),
 	);
 	$data = wp_parse_args( lemon_data_resource( 'site' ), $defaults );
 	$data['hours'] = is_array( $data['hours'] ) ? $data['hours'] : array();
@@ -124,6 +125,17 @@ function lemon_site(): array {
 				array_map(
 					static fn ( mixed $image ): string => is_string( $image ) ? trim( $image ) : '',
 					$data['gallery']
+				)
+			)
+		)
+		: array();
+	// Categorías de libro elegidas en gestion para tener su propia pestaña en la portada, en el orden elegido allí.
+	$data['home_book_categories'] = is_array( $data['home_book_categories'] )
+		? array_values(
+			array_filter(
+				array_map(
+					static fn ( mixed $category ): string => is_string( $category ) ? trim( $category ) : '',
+					$data['home_book_categories']
 				)
 			)
 		)
@@ -293,6 +305,9 @@ function lemon_books( string $fair = '' ): array {
 			$book = lemon_normalize_image_record( $book );
 			$book['fair'] = isset( $book['fair'] ) && is_string( $book['fair'] ) ? $book['fair'] : '';
 			$book['category'] = isset( $book['category'] ) && is_string( $book['category'] ) ? trim( $book['category'] ) : '';
+			$book['categories'] = isset( $book['categories'] ) && is_array( $book['categories'] )
+				? array_values( array_filter( array_map( static fn ( mixed $c ): string => is_string( $c ) ? trim( $c ) : '', $book['categories'] ) ) )
+				: array_values( array_filter( array( $book['category'] ) ) );
 			return $book;
 		},
 		$books

@@ -8,9 +8,10 @@
  * @package LemonBook
  */
 
-$books = isset( $args['books'] ) && is_array( $args['books'] ) ? $args['books'] : array();
-$fair  = isset( $args['fair'] ) && is_array( $args['fair'] ) ? $args['fair'] : null;
-$limit = 4;
+$books      = isset( $args['books'] ) && is_array( $args['books'] ) ? $args['books'] : array();
+$fair       = isset( $args['fair'] ) && is_array( $args['fair'] ) ? $args['fair'] : null;
+$categories = isset( $args['categories'] ) && is_array( $args['categories'] ) ? $args['categories'] : array();
+$limit      = 4;
 
 if ( ! $books ) {
 	?>
@@ -57,6 +58,25 @@ $tabs = array(
 		'cta'   => __( 'Ver toda la librería', 'lemonbook' ),
 	),
 );
+foreach ( $categories as $category ) {
+	// Se compara con "category" (la principal), la misma que usa el filtro desplegable de /libreria/.
+	$category_books = array_values(
+		array_filter(
+			$books,
+			static fn ( array $book ): bool => $category === ( $book['category'] ?? '' )
+		)
+	);
+	if ( ! $category_books ) {
+		continue;
+	}
+	$tabs[] = array(
+		'key'   => 'cat-' . sanitize_title( $category ),
+		'label' => $category,
+		'books' => $category_books,
+		'url'   => add_query_arg( 'categoria', $category, lemon_page_url( 'libreria' ) ),
+		'cta'   => __( 'Ver toda la librería', 'lemonbook' ),
+	);
+}
 if ( $fair && $fair_books ) {
 	$tabs[] = array(
 		'key'   => 'feria',

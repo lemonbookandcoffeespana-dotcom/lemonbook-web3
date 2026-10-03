@@ -13,6 +13,11 @@ $catalog = array_values( array_filter( $books['books'], static fn ( array $book 
 // El filtro de categoría solo se muestra si gestion ya tiene alguna asignada; si no, sería una lista vacía sin sentido.
 $categories = array_values( array_unique( array_filter( array_map( static fn ( array $book ): string => $book['category'], $catalog ) ) ) );
 sort( $categories, SORT_STRING | SORT_FLAG_CASE );
+// Preselección al llegar desde una pestaña de la portada (p. ej. ?categoria=Novela%20negra).
+$selected_category = isset( $_GET['categoria'] ) && is_string( $_GET['categoria'] ) ? sanitize_text_field( wp_unslash( $_GET['categoria'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Solo filtra una lista visible, sin efectos secundarios.
+if ( ! in_array( $selected_category, $categories, true ) ) {
+	$selected_category = '';
+}
 get_header();
 ?>
 <main id="main-content">
@@ -38,8 +43,8 @@ get_header();
 					<div class="book-filters__category">
 						<label class="screen-reader-text" for="book-category"><?php esc_html_e( 'Filtrar por categoría', 'lemonbook' ); ?></label>
 						<select id="book-category" data-book-category>
-							<option value=""><?php esc_html_e( 'Todas las categorías', 'lemonbook' ); ?></option>
-							<?php foreach ( $categories as $category ) : ?><option value="<?php echo esc_attr( $category ); ?>"><?php echo esc_html( $category ); ?></option><?php endforeach; ?>
+							<option value=""<?php selected( '', $selected_category ); ?>><?php esc_html_e( 'Todas las categorías', 'lemonbook' ); ?></option>
+							<?php foreach ( $categories as $category ) : ?><option value="<?php echo esc_attr( $category ); ?>"<?php selected( $category, $selected_category ); ?>><?php echo esc_html( $category ); ?></option><?php endforeach; ?>
 						</select>
 					</div>
 				<?php endif; ?>
