@@ -107,5 +107,6 @@ get_header();
 	</section>
 
 	<section class="section section--tertiary"><div class="shell cta-band"><h2><?php esc_html_e( '¿Guardamos una mesa para ti?', 'lemonbook' ); ?></h2><a class="button button--accent" href="<?php echo esc_url( lemon_page_url( 'reservas' ) ); ?>"><?php esc_html_e( 'Hacer una reserva', 'lemonbook' ); ?></a></div></section>
+	<?php get_template_part( 'template-parts/book-hold-dialog' ); ?>
 </main>
 <?php get_footer(); ?>

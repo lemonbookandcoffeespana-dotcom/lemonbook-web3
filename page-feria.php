@@ -135,5 +135,6 @@ get_header();
 			</div>
 		</div>
 	</div></section>
+	<?php get_template_part( 'template-parts/book-hold-dialog' ); ?>
 </main>
 <?php get_footer(); ?>

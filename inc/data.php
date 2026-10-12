@@ -309,6 +309,9 @@ function lemon_books( string $fair = '' ): array {
 			$book['categories'] = isset( $book['categories'] ) && is_array( $book['categories'] )
 				? array_values( array_filter( array_map( static fn ( mixed $c ): string => is_string( $c ) ? trim( $c ) : '', $book['categories'] ) ) )
 				: array_values( array_filter( array( $book['category'] ) ) );
+			$book['id'] = isset( $book['id'] ) ? absint( $book['id'] ) : 0;
+			$book['can_hold'] = ! empty( $book['can_hold'] );
+			$book['stock'] = isset( $book['stock'] ) ? absint( $book['stock'] ) : 0;
 			return $book;
 		},
 		$books

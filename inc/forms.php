@@ -21,7 +21,7 @@ add_action(
 	static function (): void {
 		register_rest_route(
 			'lemonbook/v1',
-			'/forms/(?P<kind>contact|reservation|waitlist)',
+			'/forms/(?P<kind>contact|reservation|waitlist|book-hold)',
 			array(
 				'methods'             => 'POST',
 				'callback'            => 'lemon_forms_handle',
@@ -86,6 +86,27 @@ function lemon_forms_handle( WP_REST_Request $request ): WP_REST_Response {
 		$payload['message']  = '';
 		$payload['event_id'] = absint( $in['event_id'] ?? 0 );
 		$payload['qty']      = absint( $in['qty'] ?? 1 );
+	} elseif ( 'book-hold' === $kind ) {
+		// Contrato propio de gestion (sin "message"/"client_ip"): solo item_id, qty, name, email, phone, consent.
+		// El campo trampa se revisa aquí mismo (gestion no lo conoce para esta acción): si viene relleno, se finge
+		// éxito sin reenviar nada, igual que si fuera spam real, para no delatar el filtro al bot.
+		if ( '' !== $payload['website'] ) {
+			return new WP_REST_Response(
+				array(
+					'ok'      => true,
+					'message' => __( 'Solicitud registrada. Te avisaremos quedando confirmada la reserva.', 'lemonbook' ),
+				),
+				200
+			);
+		}
+		$payload = array(
+			'item_id' => absint( $in['item_id'] ?? 0 ),
+			'qty'     => max( 1, min( 5, absint( $in['qty'] ?? 1 ) ) ),
+			'name'    => $text( 'name' ),
+			'email'   => sanitize_email( $text( 'email' ) ),
+			'phone'   => $text( 'phone' ),
+			'consent' => ! empty( $in['consent'] ),
+		);
 	} else {
 		$notes = isset( $in['notes'] ) && is_scalar( $in['notes'] ) ? sanitize_textarea_field( wp_unslash( (string) $in['notes'] ) ) : '';
 		$payload['message']    = '' !== $message ? $message : $notes;
@@ -118,8 +139,10 @@ function lemon_forms_handle( WP_REST_Request $request ): WP_REST_Response {
 		return $unavailable;
 	}
 
-	$response = wp_remote_post(
-		add_query_arg( 'action', $kind, LEMONBOOK_API_BASE ),
+	// La API de gestion identifica esta acción como "book_hold" (con guion bajo), no "book-hold" (la ruta REST de WP).
+	$gestion_action = 'book-hold' === $kind ? 'book_hold' : $kind;
+	$response       = wp_remote_post(
+		add_query_arg( 'action', $gestion_action, LEMONBOOK_API_BASE ),
 		array(
 			'timeout'     => 10,
 			'redirection' => 0,

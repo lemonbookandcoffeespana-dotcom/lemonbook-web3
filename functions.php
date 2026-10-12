@@ -56,6 +56,10 @@ function lemonbook_assets(): void {
 	if ( is_page( 'libreria' ) ) {
 		wp_enqueue_script( 'lemonbook-book-filter', get_template_directory_uri() . '/assets/js/book-filter.js', array(), $version, array( 'in_footer' => true, 'strategy' => 'defer' ) );
 	}
+	// Dondequiera que haya fichas de libro (portada, librería, landing de feria): el diálogo de "Reservar y recoger".
+	if ( is_front_page() || is_page( 'libreria' ) || lemon_is_fair_page() ) {
+		wp_enqueue_script( 'lemonbook-book-hold', get_template_directory_uri() . '/assets/js/book-hold.js', array(), $version, array( 'in_footer' => true, 'strategy' => 'defer' ) );
+	}
 	if ( is_page_template( 'page-feria-flota.php' ) ) {
 		wp_enqueue_style( 'lemonbook-flota', get_template_directory_uri() . '/assets/css/flota.css', array( 'lemonbook-main' ), $version );
 	}

@@ -11,7 +11,14 @@ $fair_books = $fair ? lemon_books( $fair['slug'] ) : array( 'books' => array() )
 // Los libros de la feria van en su propia sección; el catálogo general no los repite.
 $catalog = array_values( array_filter( $books['books'], static fn ( array $book ): bool => '' === $book['fair'] ) );
 // El filtro de categoría solo se muestra si gestion ya tiene alguna asignada; si no, sería una lista vacía sin sentido.
-$categories = array_values( array_unique( array_filter( array_map( static fn ( array $book ): string => $book['category'], $catalog ) ) ) );
+// Se usa "categories" (el array multi-categoría), no "category": ese campo antiguo quedó vacío en muchos libros.
+$categories = array();
+foreach ( $catalog as $book ) {
+	foreach ( (array) ( $book['categories'] ?? array() ) as $category ) {
+		$categories[ $category ] = true;
+	}
+}
+$categories = array_keys( $categories );
 sort( $categories, SORT_STRING | SORT_FLAG_CASE );
 // Preselección al llegar desde una pestaña de la portada (p. ej. ?categoria=Novela%20negra).
 $selected_category = isset( $_GET['categoria'] ) && is_string( $_GET['categoria'] ) ? sanitize_text_field( wp_unslash( $_GET['categoria'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Solo filtra una lista visible, sin efectos secundarios.
@@ -54,5 +61,6 @@ get_header();
 			<p class="empty-state" data-book-empty hidden><?php esc_html_e( 'Ningún libro coincide con esa búsqueda.', 'lemonbook' ); ?></p>
 		<?php else : ?><p class="empty-state"><?php esc_html_e( 'La selección de libros estará disponible muy pronto.', 'lemonbook' ); ?></p><?php endif; ?>
 	</div></section>
+	<?php get_template_part( 'template-parts/book-hold-dialog' ); ?>
 </main>
 <?php get_footer(); ?>

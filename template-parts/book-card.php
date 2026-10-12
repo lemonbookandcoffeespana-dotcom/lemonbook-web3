@@ -23,10 +23,12 @@ $srcset      = implode(
 );
 $buy_url     = isset( $book['buy_url'] ) ? (string) $book['buy_url'] : '';
 $murciano    = ! empty( $book['murciano'] );
-$category    = isset( $book['category'] ) ? (string) $book['category'] : '';
+$categories  = isset( $book['categories'] ) && is_array( $book['categories'] ) ? $book['categories'] : array();
 $isbn        = isset( $book['isbn'] ) ? (string) $book['isbn'] : '';
+$book_id     = isset( $book['id'] ) ? absint( $book['id'] ) : 0;
+$can_hold    = ! empty( $book['can_hold'] ) && $book_id > 0;
 ?>
-<article class="card book-card" data-book data-book-name="<?php echo esc_attr( lemon_search_key( $name ) ); ?>" data-book-author="<?php echo esc_attr( lemon_search_key( $author ) ); ?>" data-book-isbn="<?php echo esc_attr( $isbn ); ?>" data-book-murciano="<?php echo esc_attr( $murciano ? '1' : '0' ); ?>" data-book-category="<?php echo esc_attr( $category ); ?>">
+<article class="card book-card" data-book data-book-name="<?php echo esc_attr( lemon_search_key( $name ) ); ?>" data-book-author="<?php echo esc_attr( lemon_search_key( $author ) ); ?>" data-book-isbn="<?php echo esc_attr( $isbn ); ?>" data-book-murciano="<?php echo esc_attr( $murciano ? '1' : '0' ); ?>" data-book-categories="<?php echo esc_attr( implode( '|', $categories ) ); ?>">
 	<?php if ( $image_src ) : ?>
 		<div class="book-card__media" data-image-fallback><img data-content-image src="<?php echo esc_url( $image_src ); ?>"<?php if ( $srcset ) : ?> srcset="<?php echo esc_attr( $srcset ); ?>" sizes="(max-width: 767px) calc(50vw - 1.5rem), (max-width: 1119px) calc(33.333vw - 2rem), 17rem"<?php endif; ?> width="400" height="600" loading="lazy" decoding="async" alt="<?php echo esc_attr( $name ); ?>"><div class="image-placeholder image-fallback" role="img" aria-label="<?php esc_attr_e( 'Imagen no disponible', 'lemonbook' ); ?>"></div><?php if ( $murciano ) : ?><span class="tag tag--yellow book-card__badge"><?php esc_html_e( 'Autoría murciana', 'lemonbook' ); ?></span><?php endif; ?></div>
 	<?php else : ?>
@@ -37,6 +39,11 @@ $isbn        = isset( $book['isbn'] ) ? (string) $book['isbn'] : '';
 		<?php if ( $author ) : ?><p class="meta"><?php echo esc_html( $author ); ?></p><?php endif; ?>
 		<?php if ( $description ) : ?><p><?php echo esc_html( $description ); ?></p><?php endif; ?>
 		<?php if ( isset( $book['price'] ) ) : ?><p class="price"><?php echo esc_html( lemon_price( $book['price'] ) ); ?></p><?php endif; ?>
-		<?php if ( $buy_url ) : ?><p><a class="button button--ghost" href="<?php echo esc_url( $buy_url ); ?>"><?php esc_html_e( 'Ver en la tienda', 'lemonbook' ); ?></a></p><?php endif; ?>
+		<?php if ( $buy_url || $can_hold ) : ?>
+			<div class="book-card__actions">
+				<?php if ( $buy_url ) : ?><a class="button button--ghost" href="<?php echo esc_url( $buy_url ); ?>"><?php esc_html_e( 'Comprar', 'lemonbook' ); ?></a><?php endif; ?>
+				<?php if ( $can_hold ) : ?><button type="button" class="button button--ghost" data-book-hold-trigger data-item-id="<?php echo esc_attr( (string) $book_id ); ?>" data-book-name="<?php echo esc_attr( $name ); ?>"><?php esc_html_e( 'Reservar y recoger en la librería', 'lemonbook' ); ?></button><?php endif; ?>
+			</div>
+		<?php endif; ?>
 	</div>
 </article>

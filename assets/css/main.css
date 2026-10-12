@@ -122,3 +122,13 @@
 .book-tabs__panel[hidden]{display:none}
 .book-tabs__more{margin-top:1.5rem}
 @media (max-width:47.99rem){.book-tabs__list{flex-wrap:nowrap;overflow-x:auto;padding-bottom:.25rem}.book-tabs__tab{flex:0 0 auto;white-space:nowrap}}
+
+.book-card__actions{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.5rem}
+.book-hold-dialog{position:relative;width:min(calc(100% - 2rem),30rem);max-height:calc(100dvh - 2rem);overflow:auto;border:0;border-top:.5rem solid var(--brand-yellow);padding:clamp(1.5rem,5vw,2.25rem);background:var(--brand-bg);color:var(--brand-primary)}
+.book-hold-dialog::backdrop{background:rgba(27,61,46,.72)}
+.book-hold-dialog h2{margin-bottom:.5rem;font-size:clamp(1.4rem,4vw,1.9rem)}
+.book-hold-form__book{margin-bottom:1rem;font-weight:700;color:var(--brand-tertiary)}
+.book-hold-dialog__close{position:absolute;top:.5rem;right:.5rem;display:grid;width:2.75rem;height:2.75rem;place-items:center;border:1px solid var(--brand-primary);background:transparent;color:var(--brand-primary);font-size:1.6rem;line-height:1;cursor:pointer}
+.book-hold-form .field-grid{margin-bottom:1rem}
+.book-hold-form .field-grid--two{grid-template-columns:minmax(0,1fr)}
+@media (min-width:40rem){.book-hold-form .field-grid--two{grid-template-columns:repeat(2,minmax(0,1fr))}}

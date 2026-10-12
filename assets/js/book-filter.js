@@ -30,7 +30,7 @@
         || (card.dataset.bookAuthor || '').includes(query)
         || (queryDigits.length >= 3 && (card.dataset.bookIsbn || '').replace(/[^0-9x]/gi, '').includes(queryDigits));
       const matchesMurciano = !onlyMurciano || card.dataset.bookMurciano === '1';
-      const matchesCategory = !wantedCategory || card.dataset.bookCategory === wantedCategory;
+      const matchesCategory = !wantedCategory || (card.dataset.bookCategories || '').split('|').includes(wantedCategory);
       const show = matchesQuery && matchesMurciano && matchesCategory;
       card.hidden = !show;
       if (show) visible += 1;

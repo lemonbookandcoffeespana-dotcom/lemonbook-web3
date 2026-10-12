@@ -59,11 +59,12 @@ $tabs = array(
 	),
 );
 foreach ( $categories as $category ) {
-	// Se compara con "category" (la principal), la misma que usa el filtro desplegable de /libreria/.
+	// "category" (singular) queda vacío en muchos libros desde que gestion pasó a multi-categoría: se compara
+	// con el array "categories", la misma lista que usa gestion para construir site.home_book_categories.
 	$category_books = array_values(
 		array_filter(
 			$books,
-			static fn ( array $book ): bool => $category === ( $book['category'] ?? '' )
+			static fn ( array $book ): bool => in_array( $category, (array) ( $book['categories'] ?? array() ), true )
 		)
 	);
 	if ( ! $category_books ) {
