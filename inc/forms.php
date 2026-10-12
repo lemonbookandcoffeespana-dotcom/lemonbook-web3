@@ -135,7 +135,13 @@ function lemon_forms_handle( WP_REST_Request $request ): WP_REST_Response {
 		503
 	);
 
+	// TEMPORAL (diagnóstico): se quita en cuanto se resuelva. No expone el token, solo si existe y su longitud.
+	$lemon_forms_debug = 'token_defined=' . ( defined( 'LEMONBOOK_FORMS_TOKEN' ) ? 'yes_len' . strlen( (string) LEMONBOOK_FORMS_TOKEN ) : 'no' ) . ' api_base=' . ( '' !== LEMONBOOK_API_BASE ? 'set' : 'empty' );
+
 	if ( ! defined( 'LEMONBOOK_FORMS_TOKEN' ) || strlen( (string) LEMONBOOK_FORMS_TOKEN ) < 24 || '' === LEMONBOOK_API_BASE ) {
+		if ( isset( $_GET['lbdebug'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Solo lectura de diagnóstico temporal.
+			$unavailable->set_data( array_merge( (array) $unavailable->get_data(), array( 'debug' => $lemon_forms_debug . ' reason=token_or_base' ) ) );
+		}
 		return $unavailable;
 	}
 
@@ -155,12 +161,18 @@ function lemon_forms_handle( WP_REST_Request $request ): WP_REST_Response {
 	);
 
 	if ( is_wp_error( $response ) ) {
+		if ( isset( $_GET['lbdebug'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Solo lectura de diagnóstico temporal.
+			$unavailable->set_data( array_merge( (array) $unavailable->get_data(), array( 'debug' => $lemon_forms_debug . ' wp_error=' . $response->get_error_message() ) ) );
+		}
 		return $unavailable;
 	}
 
 	$code = (int) wp_remote_retrieve_response_code( $response );
 	$data = json_decode( wp_remote_retrieve_body( $response ), true );
 	if ( ! is_array( $data ) || ! in_array( $code, array( 200, 422, 429 ), true ) ) {
+		if ( isset( $_GET['lbdebug'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Solo lectura de diagnóstico temporal.
+			$unavailable->set_data( array_merge( (array) $unavailable->get_data(), array( 'debug' => $lemon_forms_debug . ' http=' . $code . ' body=' . substr( wp_remote_retrieve_body( $response ), 0, 300 ) ) ) );
+		}
 		return $unavailable; // 401/503/500 y cualquier otro fallo: no se filtran detalles internos.
 	}
 
