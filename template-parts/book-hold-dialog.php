@@ -16,7 +16,7 @@
 		<div class="honeypot" aria-hidden="true"><label for="book-hold-website"><?php esc_html_e( 'No rellenar este campo', 'lemonbook' ); ?></label><input id="book-hold-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
 		<div class="field-grid field-grid--two">
 			<div class="field"><label for="book-hold-name"><?php esc_html_e( 'Nombre', 'lemonbook' ); ?></label><input id="book-hold-name" name="name" type="text" autocomplete="name" required></div>
-			<div class="field"><label for="book-hold-email"><?php esc_html_e( 'Correo electrónico (opcional)', 'lemonbook' ); ?></label><input id="book-hold-email" name="email" type="email" autocomplete="email"></div>
+			<div class="field"><label for="book-hold-email"><?php esc_html_e( 'Correo electrónico', 'lemonbook' ); ?></label><input id="book-hold-email" name="email" type="email" autocomplete="email" required></div>
 			<div class="field"><label for="book-hold-phone"><?php esc_html_e( 'Teléfono', 'lemonbook' ); ?></label><input id="book-hold-phone" name="phone" type="tel" autocomplete="tel" required></div>
 			<div class="field"><label for="book-hold-qty"><?php esc_html_e( 'Ejemplares', 'lemonbook' ); ?></label><input id="book-hold-qty" name="qty" type="number" min="1" max="5" step="1" value="1" inputmode="numeric" required></div>
 			<label class="field--check field--wide"><input name="consent" type="checkbox" value="1" required><span><?php esc_html_e( 'Acepto el tratamiento de mis datos para gestionar esta reserva.', 'lemonbook' ); ?></span></label>
