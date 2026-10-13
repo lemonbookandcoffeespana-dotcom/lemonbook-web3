@@ -4,7 +4,7 @@
 @font-face{font-family:Lato;src:url("../fonts/lato-light.woff2") format("woff2");font-weight:300;font-style:normal;font-display:swap}
 @font-face{font-family:Lato;src:url("../fonts/lato-regular.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
 @font-face{font-family:Lato;src:url("../fonts/lato-bold.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}
-:root{--brand-primary:#1B3D2E;--brand-tertiary:#016F60;--brand-accent:#63C5E2;--brand-yellow:#F2E500;--brand-olive:#999065;--brand-dark:#3C3A19;--brand-bg:#F2F5DC;--font-display:"Playfair Display",Georgia,serif;--font-body:Lato,Arial,sans-serif;--shell:76rem;--space:clamp(3.5rem,8vw,7.5rem)}
+:root{--brand-primary:#1B3D2E;--brand-tertiary:#016F60;--brand-accent:#63C5E2;--brand-yellow:#F2E500;--brand-olive:#999065;--brand-dark:#3C3A19;--brand-bg:#F2F5DC;--font-display:"Playfair Display",Georgia,serif;--font-body:Lato,Arial,sans-serif;--shell:76rem;--space:clamp(2rem,4vw,3.5rem)}
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--brand-bg);color:var(--brand-primary);font-family:var(--font-body);font-size:1rem;line-height:1.65;text-rendering:optimizeLegibility}
@@ -31,7 +31,7 @@ h3{font-size:clamp(1.35rem,3vw,2rem)}
 .primary-navigation{position:absolute;top:100%;right:0;left:0;display:none;border-bottom:1px solid var(--brand-primary);background:var(--brand-bg)}
 .primary-navigation.is-open{display:block}
 .menu{list-style:none;margin:0;padding:0}.primary-navigation .menu{padding:1rem}.primary-navigation a{display:block;padding:.7rem;text-decoration:none;font-weight:700}
-.hero{padding:clamp(3rem,9vw,7rem) 0 var(--space)}
+.hero{padding:clamp(2rem,5vw,3.5rem) 0 var(--space)}
 .hero-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:2.5rem;align-items:center}.hero-grid>*{min-width:0}
 .eyebrow{display:flex;align-items:center;gap:.7rem;margin-bottom:1.25rem;color:var(--brand-tertiary);font-size:.78rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase}.eyebrow::before{width:2.5rem;height:.25rem;background:var(--brand-yellow);content:""}
 .hero h1{max-width:12ch;margin-bottom:1.25rem}.hero-copy{max-width:42rem;font-size:clamp(1.1rem,2.5vw,1.4rem)}
